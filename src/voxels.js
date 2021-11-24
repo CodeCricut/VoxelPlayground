@@ -36,6 +36,7 @@ export const init = () => {
   scene.add(directionalLight);
 
   const controls = new OrbitControls(camera, renderer.domElement);
+
   controls.maxPolarAngle = Math.PI / 2 - 10 * (Math.PI / 180);
   controls.update();
 
@@ -61,11 +62,14 @@ const onMouseDown = (event) => {
 
 const addOrRemoveVoxel = () => {
   const intersect = intersectObjectsFromCam(collidables);
-
   // Remove obj if holding shift
-  if (keyboard.isShiftDown && intersect.object !== hitboxPlane)
-    removeObjectAtIntersect(intersect);
-  else addVoxelAtIntersect(intersect);
+  if (intersect && intersect.object) {
+    console.dir(intersect);
+    if (keyboard.isShiftDown) {
+      if (intersect.object !== hitboxPlane)
+        removeCollidableFromScene(intersect.object);
+    } else addVoxelAtIntersect(intersect);
+  }
 };
 
 const addVoxelAtIntersect = (intersect) => {
@@ -73,10 +77,6 @@ const addVoxelAtIntersect = (intersect) => {
   const voxel = new TexturedCube();
   snapToIntersect(voxel, intersect);
   addCollidableToScene(voxel);
-};
-
-const removeObjectAtIntersect = (intersect) => {
-  removeCollidableFromScene(intersect.object);
 };
 
 const updateRolloverLocation = () => {
