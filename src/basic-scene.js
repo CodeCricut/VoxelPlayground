@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { objects, addObject, removeObject } from './objects';
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -17,6 +18,21 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const objects = [];
+const addObjectToScene = (obj) => {
+  scene.add(obj);
+  addObject(obj);
+};
 
-export { camera, scene, renderer, objects };
+const removeObjectFromScene = (obj) => {
+  scene.remove(obj);
+  removeObject(obj);
+};
+
+export {
+  camera,
+  scene,
+  renderer,
+  objects,
+  addObjectToScene,
+  removeObjectFromScene,
+};

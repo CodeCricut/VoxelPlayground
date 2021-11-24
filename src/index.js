@@ -1,7 +1,14 @@
 import * as THREE from 'three';
 import { WEBGL } from './webgl';
 import { onDocumentKeyDown, onDocumentKeyUp, keyboard } from './keyboard';
-import { camera, scene, renderer, objects } from './basic-scene';
+import {
+  camera,
+  scene,
+  renderer,
+  objects,
+  addObjectToScene,
+  removeObjectFromScene,
+} from './basic-scene';
 import './modal';
 
 if (WEBGL.isWebGLAvailable()) {
@@ -44,9 +51,8 @@ if (WEBGL.isWebGLAvailable()) {
       hitboxGeometry,
       new THREE.MeshBasicMaterial({ visible: false }),
     );
-    scene.add(hitboxPlane);
 
-    objects.push(hitboxPlane);
+    addObjectToScene(hitboxPlane);
 
     let ambientLight = new THREE.AmbientLight(0x606060);
     scene.add(ambientLight);
@@ -123,9 +129,7 @@ if (WEBGL.isWebGLAvailable()) {
       // Remove obj if holding shift
       if (keyboard.isShiftDown) {
         if (intersect.object !== hitboxPlane) {
-          scene.remove(intersect.object);
-
-          objects.splice(objects.indexOf(intersect.object), 1);
+          removeObjectFromScene(intersect.object);
         }
       } else {
         // create new voxel
@@ -139,9 +143,7 @@ if (WEBGL.isWebGLAvailable()) {
           .multiplyScalar(50)
           .addScalar(25);
 
-        scene.add(voxel);
-
-        objects.push(voxel);
+        addObjectToScene(voxel);
       }
 
       render();
