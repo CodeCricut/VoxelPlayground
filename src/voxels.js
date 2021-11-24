@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { WEBGL } from './webgl';
 import { onDocumentKeyDown, onDocumentKeyUp, keyboard } from './keyboard';
 import {
   camera,
@@ -10,8 +9,8 @@ import {
   removeCollidableFromScene,
 } from './basic-scene';
 import './modal';
+import hitboxPlane from './hitbox-plane';
 
-let hitboxPlane;
 let mouse, raycaster;
 
 let rollOverMesh, rollOverMaterial;
@@ -39,14 +38,6 @@ export const init = () => {
 
   raycaster = new THREE.Raycaster();
   mouse = new THREE.Vector2();
-
-  let hitboxGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
-  hitboxGeometry.rotateX(-Math.PI / 2);
-
-  hitboxPlane = new THREE.Mesh(
-    hitboxGeometry,
-    new THREE.MeshBasicMaterial({ visible: false }),
-  );
 
   addCollidableToScene(hitboxPlane);
 
