@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { objects, addObject, removeObject } from './objects';
+import { objects as collidables, addObject, removeObject } from './objects';
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -18,21 +18,21 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const addObjectToScene = (obj) => {
-  scene.add(obj);
-  addObject(obj);
+const addCollidableToScene = (collidable) => {
+  scene.add(collidable);
+  addObject(collidable);
 };
 
-const removeObjectFromScene = (obj) => {
-  scene.remove(obj);
-  removeObject(obj);
+const removeCollidableFromScene = (collidable) => {
+  scene.remove(collidable);
+  removeObject(collidable);
 };
 
 export {
   camera,
   scene,
   renderer,
-  objects,
-  addObjectToScene,
-  removeObjectFromScene,
+  collidables,
+  addCollidableToScene,
+  removeCollidableFromScene,
 };

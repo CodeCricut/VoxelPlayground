@@ -5,9 +5,9 @@ import {
   camera,
   scene,
   renderer,
-  objects,
-  addObjectToScene,
-  removeObjectFromScene,
+  collidables,
+  addCollidableToScene,
+  removeCollidableFromScene,
 } from './basic-scene';
 import './modal';
 
@@ -52,7 +52,7 @@ if (WEBGL.isWebGLAvailable()) {
       new THREE.MeshBasicMaterial({ visible: false }),
     );
 
-    addObjectToScene(hitboxPlane);
+    addCollidableToScene(hitboxPlane);
 
     let ambientLight = new THREE.AmbientLight(0x606060);
     scene.add(ambientLight);
@@ -85,7 +85,7 @@ if (WEBGL.isWebGLAvailable()) {
 
     raycaster.setFromCamera(mouse, camera);
 
-    let intersects = raycaster.intersectObjects(objects);
+    let intersects = raycaster.intersectObjects(collidables);
 
     if (intersects.length > 0) {
       let intersect = intersects[0];
@@ -121,7 +121,7 @@ if (WEBGL.isWebGLAvailable()) {
     // Get position of clicked obj
     raycaster.setFromCamera(mouse, camera);
 
-    let intersects = raycaster.intersectObjects(objects);
+    let intersects = raycaster.intersectObjects(collidables);
 
     if (intersects.length > 0) {
       let intersect = intersects[0];
@@ -129,7 +129,7 @@ if (WEBGL.isWebGLAvailable()) {
       // Remove obj if holding shift
       if (keyboard.isShiftDown) {
         if (intersect.object !== hitboxPlane) {
-          removeObjectFromScene(intersect.object);
+          removeCollidableFromScene(intersect.object);
         }
       } else {
         // create new voxel
@@ -143,7 +143,7 @@ if (WEBGL.isWebGLAvailable()) {
           .multiplyScalar(50)
           .addScalar(25);
 
-        addObjectToScene(voxel);
+        addCollidableToScene(voxel);
       }
 
       render();
