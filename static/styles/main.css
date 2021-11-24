@@ -21,6 +21,28 @@ canvas {
     padding: 20px;
 }
 
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li > * {
+    align-self: center;
+}
+.menu ul li i {
+    font-size: 1.6rem;
+    color: var(--secondary);
+}
+
 #three-canvas {
     grid-column-start: 2;
     width: 100%;

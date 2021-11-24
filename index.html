@@ -6,22 +6,26 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
+        <title>Three.JS Voxel Playground</title>
         <link rel="icon" href="static/favicon.ico" type="image/x-icon" />
         <!-- Bootstrap CSS -->
         <link
             rel="stylesheet"
             href="node_modules/bootstrap/dist/css/bootstrap.min.css"
         />
-        <link rel="stylesheet" href="static/styles/main.css" />
-        <title>Three.JS Voxel Playground</title>
         <!-- jQuery first, then Popper.js, then Bootstrap JS. -->
         <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
         <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- Bootstrap icons -->
-        <link rel="stylesheet"
-        href="node_modules/bootstrap-icons/font/bootstrap-icons.css"
+        <link
+            rel="stylesheet"
+            href="node_modules/bootstrap-icons/font/bootstrap-icons.css"
+        />
+
+        <!-- User stylesheet -->
+        <link rel="stylesheet" href="static/styles/main.css" />
     </head>
     <body>
         <div class="grid">
@@ -30,15 +34,37 @@
                 <p>
                     Voxel playground is an interactive WebGL app made with
                     <a href="https://threejs.org/">Three.js</a>. Build and
-                    destroy to your hearts content in this Minecraft-inspired
+                    destroy to your heart's content in this Minecraft-inspired
                     demo.
                 </p>
                 <h3>Controls</h3>
                 <ul>
-                    <li><i class="bi-github" role="img"></i></li>
-                    <li><strong>Place block</strong>: click</li>
+                    <li>
+                        <i class="bi bi-plus-lg" role="img"></i>
+                        <div><strong>place:</strong> <kbd>click</kbd></div>
+                    </li>
+                    <li>
+                        <i class="bi bi-dash-lg"></i>
+                        <div>
+                            <strong>remove:</strong> <kbd>shift</kbd> +
+                            <kbd>click</kbd>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-arrow-repeat"></i>
+                        <div>
+                            <strong>rotate:</strong> <kbd>click + drag</kbd>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-arrows-move"></i>
+                        <div>
+                            <strong>pan:</strong>
+                            <kbd>shift + click + drag</kbd>
+                        </div>
+                    </li>
                 </ul>
-                <h2>Materials</h2>
+                <h2 class="mt-2">Materials</h2>
                 <div class="d-grid gap-2 mx-auto">
                     <button id="dirt-btn" class="btn btn-outline-secondary xs-">
                         Dirt
