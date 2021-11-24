@@ -9,7 +9,6 @@ import {
   addCollidableToScene,
   removeCollidableFromScene,
 } from './basic-scene';
-import './modal';
 import hitboxPlane from './hitbox-plane';
 import rolloverMesh from './rollover-mesh';
 import { intersectObjectsFromCam } from './camera-raycaster';
