@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 import { WEBGL } from './webgl';
+import { onDocumentKeyDown, onDocumentKeyUp, keyboard } from './keyboard';
 import './modal';
 
 if (WEBGL.isWebGLAvailable()) {
   let camera, scene, renderer;
   let hitboxPlane;
-  let mouse,
-    raycaster,
-    isShiftDown = false;
+  let mouse, raycaster;
+  // isShiftDown = false;
 
   let rollOverMesh, rollOverMaterial;
   let cubeGeo, cubeMaterial;
@@ -141,7 +141,7 @@ if (WEBGL.isWebGLAvailable()) {
       let intersect = intersects[0];
 
       // Remove obj if holding shift
-      if (isShiftDown) {
+      if (keyboard.isShiftDown) {
         if (intersect.object !== hitboxPlane) {
           scene.remove(intersect.object);
 
@@ -168,21 +168,21 @@ if (WEBGL.isWebGLAvailable()) {
     }
   }
 
-  function onDocumentKeyDown(event) {
-    switch (event.keyCode) {
-      case 16:
-        isShiftDown = true;
-        break;
-    }
-  }
+  //   function onDocumentKeyDown(event) {
+  //     switch (event.keyCode) {
+  //       case 16:
+  //         isShiftDown = true;
+  //         break;
+  //     }
+  //   }
 
-  function onDocumentKeyUp(event) {
-    switch (event.keyCode) {
-      case 16:
-        isShiftDown = false;
-        break;
-    }
-  }
+  //   function onDocumentKeyUp(event) {
+  //     switch (event.keyCode) {
+  //       case 16:
+  //         isShiftDown = false;
+  //         break;
+  //     }
+  //   }
 
   function render() {
     renderer.render(scene, camera);
