@@ -3,7 +3,8 @@ import * as THREE from 'three';
 export const CUBE_DIMS = 50;
 
 export const DIRT = 'DIRT',
-  STONE = 'STONE';
+  STONE = 'STONE',
+  GRASS = 'GRASS';
 
 const cubeGeo = new THREE.BoxBufferGeometry(CUBE_DIMS, CUBE_DIMS, CUBE_DIMS);
 
@@ -25,6 +26,9 @@ class Voxel extends THREE.Mesh {
         break;
       case STONE:
         material.color = new THREE.Color(0xc7bbc0);
+        break;
+      case GRASS:
+        material.color = new THREE.Color(0x239e43);
         break;
     }
 

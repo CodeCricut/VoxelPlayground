@@ -74,9 +74,7 @@ const addOrRemoveVoxel = () => {
 
 const addVoxelAtIntersect = (intersect) => {
   if (!intersect) return;
-  const mat = Voxel.typeToMaterial(selectedMaterialType);
-  console.dir(mat);
-  const voxel = new Voxel(mat);
+  const voxel = new Voxel(Voxel.typeToMaterial(selectedMaterialType));
   snapToIntersect(voxel, intersect);
   addCollidableToScene(voxel);
 };
