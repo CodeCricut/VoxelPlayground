@@ -28,64 +28,77 @@
         <link rel="stylesheet" href="static/styles/main.css" />
     </head>
     <body>
-        <div class="grid">
-            <div class="menu container">
-                <h1>Voxel Playground</h1>
-                <p>
-                    Voxel playground is an interactive WebGL app made with
-                    <a href="https://threejs.org/">Three.js</a>. Build and
-                    destroy to your heart's content in this Minecraft-inspired
-                    demo.
-                </p>
-                <h3>Controls</h3>
-                <ul>
-                    <li>
-                        <i class="bi bi-plus-lg" role="img"></i>
-                        <div><strong>place:</strong></div>
-                        <div><kbd>click</kbd></div>
-                    </li>
-                    <li>
-                        <i class="bi bi-dash-lg"></i>
-                        <div>
-                            <strong>remove:</strong>
-                        </div>
-                        <div>
-                            <kbd>shift</kbd> +
-                            <kbd>click</kbd>
-                        </div>
-                    </li>
-                    <li>
-                        <i class="bi bi-arrow-repeat"></i>
-                        <div>
-                            <strong>rotate:</strong>
-                        </div>
-                        <div><kbd>click</kbd> + <kbd>drag</kbd></div>
-                    </li>
-                    <li>
-                        <i class="bi bi-arrows-move"></i>
-                        <div>
-                            <strong>pan:</strong>
-                        </div>
-                        <div>
-                            <kbd>shift</kbd> + <kbd>click</kbd> +
-                            <kbd>drag</kbd>
-                        </div>
-                    </li>
-                </ul>
-                <h2 class="mt-2">Materials</h2>
-                <div class="d-grid gap-2 mx-auto">
-                    <button id="dirt-btn" class="btn btn-outline-secondary xs-">
-                        Dirt
-                    </button>
-                    <button id="stone-btn" class="btn btn-outline-secondary">
-                        Stone
-                    </button>
-                    <button id="grass-btn" class="btn btn-outline-secondary">
-                        Grass
-                    </button>
+        <div class="grid container-fluid">
+            <div class="row">
+                <div class="menu col-md-4">
+                    <h1>Voxel Playground</h1>
+                    <p>
+                        Voxel playground is an interactive WebGL app made with
+                        <a href="https://threejs.org/">Three.js</a>. Build and
+                        destroy to your heart's content in this
+                        Minecraft-inspired demo.
+                    </p>
+                    <h3>Controls</h3>
+                    <ul>
+                        <li>
+                            <i class="bi bi-plus-lg" role="img"></i>
+                            <div><strong>place:</strong></div>
+                            <div><kbd>click</kbd></div>
+                        </li>
+                        <li>
+                            <i class="bi bi-dash-lg"></i>
+                            <div>
+                                <strong>remove:</strong>
+                            </div>
+                            <div>
+                                <kbd>shift</kbd> +
+                                <kbd>click</kbd>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="bi bi-arrow-repeat"></i>
+                            <div>
+                                <strong>rotate:</strong>
+                            </div>
+                            <div><kbd>click</kbd> + <kbd>drag</kbd></div>
+                        </li>
+                        <li>
+                            <i class="bi bi-arrows-move"></i>
+                            <div>
+                                <strong>pan:</strong>
+                            </div>
+                            <div>
+                                <kbd>shift</kbd> + <kbd>click</kbd> +
+                                <kbd>drag</kbd>
+                            </div>
+                        </li>
+                    </ul>
+                    <h2 class="mt-2">Materials</h2>
+                    <div class="d-grid gap-2 mx-auto">
+                        <button
+                            id="dirt-btn"
+                            class="btn btn-outline-secondary xs-"
+                        >
+                            Dirt
+                        </button>
+                        <button
+                            id="stone-btn"
+                            class="btn btn-outline-secondary"
+                        >
+                            Stone
+                        </button>
+                        <button
+                            id="grass-btn"
+                            class="btn btn-outline-secondary"
+                        >
+                            Grass
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <canvas id="three-canvas" width="300" height="150"></canvas>
                 </div>
             </div>
-            <canvas id="three-canvas"></canvas>
         </div>
         <script src="public/bundle.js"></script>
     </body>

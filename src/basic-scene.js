@@ -16,29 +16,30 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
 const addCollidableToScene = (collidable) => {
-  scene.add(collidable);
-  addObject(collidable);
+    scene.add(collidable);
+    addObject(collidable);
 };
 
 const removeCollidableFromScene = (collidable) => {
-  scene.remove(collidable);
-  removeObject(collidable);
+    scene.remove(collidable);
+    removeObject(collidable);
 };
 
 const onWindowResize = () => {
-  camera.aspect = aspectRatio;
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    camera.aspect = aspectRatio;
+    camera.updateProjectionMatrix();
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
 };
 
 window.addEventListener('resize', onWindowResize, false);
 
 export {
-  camera,
-  scene,
-  renderer,
-  collidables,
-  addCollidableToScene,
-  removeCollidableFromScene,
+    camera,
+    scene,
+    renderer,
+    collidables,
+    addCollidableToScene,
+    removeCollidableFromScene,
 };
