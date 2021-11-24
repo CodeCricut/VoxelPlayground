@@ -14,7 +14,7 @@ import rolloverMesh from './rollover-mesh';
 import { intersectObjectsFromCam } from './camera-raycaster';
 
 import mouse, { MOUSE_MOVED, MOUSE_DOWN, MOUSE_UP } from './mouse';
-import Voxel, { CUBE_DIMS } from './Voxel';
+import Voxel, { CUBE_DIMS, DIRT, STONE } from './Voxel';
 
 import { snapToIntersect } from './position-helpers';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -72,7 +72,9 @@ const addOrRemoveVoxel = () => {
 
 const addVoxelAtIntersect = (intersect) => {
   if (!intersect) return;
-  const voxel = new Voxel();
+  const dirtMaterial = Voxel.typeToMaterial(DIRT);
+  console.dir(dirtMaterial);
+  const voxel = new Voxel(dirtMaterial);
   snapToIntersect(voxel, intersect);
   addCollidableToScene(voxel);
 };

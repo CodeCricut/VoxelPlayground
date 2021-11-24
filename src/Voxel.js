@@ -2,19 +2,33 @@ import * as THREE from 'three';
 
 export const CUBE_DIMS = 50;
 
-const DIRT = 'DIRT',
+export const DIRT = 'DIRT',
   STONE = 'STONE';
 
 const cubeGeo = new THREE.BoxBufferGeometry(CUBE_DIMS, CUBE_DIMS, CUBE_DIMS);
-const cubeMaterial = new THREE.MeshLambertMaterial({
-  color: 0xfeb74c,
-  map: new THREE.TextureLoader().load('static/textures/square.png'),
-});
 
 class Voxel extends THREE.Mesh {
-  constructor(position = new THREE.Vector3()) {
-    super(cubeGeo, cubeMaterial);
+  constructor(material, position = new THREE.Vector3()) {
+    super(cubeGeo, material);
     this.position.copy(position);
+  }
+
+  static typeToMaterial(type) {
+    const material = new THREE.MeshLambertMaterial({
+      color: 0x050505,
+      map: new THREE.TextureLoader().load('static/textures/square.png'),
+    });
+
+    switch (type) {
+      case DIRT:
+        material.color = new THREE.Color(0xfeb74c);
+        break;
+      case STONE:
+        material.color = new THREE.Color(0xc7bbc0);
+        break;
+    }
+
+    return material;
   }
 }
 
