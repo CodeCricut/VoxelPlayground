@@ -14,7 +14,7 @@ import hitboxPlane from './hitbox-plane';
 import rolloverMesh from './rollover-mesh';
 import { intersectObjectsFromCam } from './camera-raycaster';
 
-import { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
+import mouse, { MOUSE_MOVED, MOUSE_DOWN, MOUSE_UP } from './mouse';
 import TexturedCube, { CUBE_DIMS } from './TexturedCube';
 
 import { snapToIntersect } from './position-helpers';
@@ -41,7 +41,7 @@ export const init = () => {
   controls.update();
 
   document.addEventListener(MOUSE_MOVED, onMouseMoved, false);
-  document.addEventListener(MOUSE_DOWN, onMouseDown, false);
+  document.addEventListener(MOUSE_UP, onMouseUp, false);
 };
 
 export const render = () => {
@@ -54,9 +54,15 @@ const onMouseMoved = (event) => {
   render();
 };
 
-const onMouseDown = (event) => {
+const onMouseUp = (event) => {
   event.preventDefault();
-  addOrRemoveVoxel();
+  console.log('on mouse up');
+  console.log(mouse.isDragging);
+  if (!mouse.isDragging) {
+    addOrRemoveVoxel();
+  } else {
+    console.log("can't add/remove voxel; mouse.isDragging is true");
+  }
   render();
 };
 
