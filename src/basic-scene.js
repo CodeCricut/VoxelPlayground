@@ -20,6 +20,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.maxPolarAngle = Math.PI / 2 - 10 * (Math.PI / 180);
 controls.update();
 
 const addCollidableToScene = (collidable) => {
