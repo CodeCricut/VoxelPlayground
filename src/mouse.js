@@ -37,10 +37,14 @@ const onDocumentMouseUp = (event) => {
 };
 
 export const setPosFromMouseEvent = (event) => {
-  mouse.position.set(
-    (event.clientX / window.innerWidth) * 2 - 1,
-    -(event.clientY / window.innerHeight) * 2 + 1,
-  );
+  const element = event.target;
+  if (element instanceof HTMLCanvasElement) {
+    const rect = event.target.getBoundingClientRect();
+    // Calculate mouse position, normalized between -1 to +1 for both x and y
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    mouse.position.set(x, y);
+  }
 };
 
 document.addEventListener('mousemove', onDocumentMouseMove, false);

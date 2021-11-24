@@ -1,22 +1,19 @@
 import * as THREE from 'three';
 import { objects as collidables, addObject, removeObject } from './objects';
 
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  1,
-  10000,
-);
+const canvas = document.getElementById('three-canvas');
+const aspectRatio = canvas.clientWidth / canvas.clientHeight;
+
+const camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 10000);
 camera.position.set(500, 800, 1300);
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf0f0f0);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
 const addCollidableToScene = (collidable) => {
   scene.add(collidable);
@@ -29,10 +26,10 @@ const removeCollidableFromScene = (collidable) => {
 };
 
 const onWindowResize = () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = aspectRatio;
   camera.updateProjectionMatrix();
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 };
 
 window.addEventListener('resize', onWindowResize, false);

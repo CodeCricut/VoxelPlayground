@@ -55,13 +55,7 @@ const onMouseMoved = (event) => {
 
 const onMouseUp = (event) => {
   event.preventDefault();
-  console.log('on mouse up');
-  console.log(mouse.isDragging);
-  if (!mouse.isDragging) {
-    addOrRemoveVoxel();
-  } else {
-    console.log("can't add/remove voxel; mouse.isDragging is true");
-  }
+  if (!mouse.isDragging) addOrRemoveVoxel();
   render();
 };
 
@@ -69,7 +63,6 @@ const addOrRemoveVoxel = () => {
   const intersect = intersectObjectsFromCam(collidables);
   // Remove obj if holding shift
   if (intersect && intersect.object) {
-    console.dir(intersect);
     if (keyboard.isShiftDown) {
       if (intersect.object !== hitboxPlane)
         removeCollidableFromScene(intersect.object);
