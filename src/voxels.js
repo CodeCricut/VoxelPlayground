@@ -18,6 +18,7 @@ import { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
 import TexturedCube, { CUBE_DIMS } from './TexturedCube';
 
 import { snapToIntersect } from './position-helpers';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export const init = () => {
   scene.add(rolloverMesh);
@@ -33,6 +34,10 @@ export const init = () => {
   let directionalLight = new THREE.DirectionalLight(0xffffff);
   directionalLight.position.set(1, 0.75, 0.5).normalize();
   scene.add(directionalLight);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.maxPolarAngle = Math.PI / 2 - 10 * (Math.PI / 180);
+  controls.update();
 
   document.addEventListener(MOUSE_MOVED, onMouseMoved, false);
   document.addEventListener(MOUSE_DOWN, onMouseDown, false);
