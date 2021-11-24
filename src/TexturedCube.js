@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 
-const cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50);
+export const CUBE_DIMS = 50;
+
+const cubeGeo = new THREE.BoxBufferGeometry(CUBE_DIMS, CUBE_DIMS, CUBE_DIMS);
 const cubeMaterial = new THREE.MeshLambertMaterial({
   color: 0xfeb74c,
   map: new THREE.TextureLoader().load('static/textures/square.png'),

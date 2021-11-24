@@ -15,7 +15,7 @@ import rolloverMesh from './rollover-mesh';
 import { intersectObjectsFromCam } from './camera-raycaster';
 
 import { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
-import TexturedCube from './TexturedCube';
+import TexturedCube, { CUBE_DIMS } from './TexturedCube';
 
 export const init = () => {
   scene.add(rolloverMesh);
@@ -61,7 +61,9 @@ const onMouseDown = (event) => {
 
     // position on grid
     voxel.position.copy(intersect.point).add(intersect.face.normal);
-    voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+
+    const gridPos = getSnappedGridPos(voxel.position);
+    voxel.position.copy(gridPos);
 
     addCollidableToScene(voxel);
   }
@@ -83,12 +85,14 @@ const updateRolloverLocation = () => {
     // Ensure that it is positioned towards the camera, not on the opposite face
     .add(intersect.face.normal);
 
-  // position on grid
-  rolloverMesh.position
-    // Round to nearest 50 units
-    .divideScalar(50)
+  const gridPos = getSnappedGridPos(rolloverMesh.position);
+  rolloverMesh.position.copy(gridPos);
+};
+
+const getSnappedGridPos = (point) => {
+  return point
+    .divideScalar(CUBE_DIMS)
     .floor()
-    .multiplyScalar(50)
-    // Position away from vertices, in the cube
-    .addScalar(25);
+    .multiplyScalar(CUBE_DIMS)
+    .addScalar(CUBE_DIMS / 2);
 };
