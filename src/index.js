@@ -1,35 +1,20 @@
 import * as THREE from 'three';
 import { WEBGL } from './webgl';
 import { onDocumentKeyDown, onDocumentKeyUp, keyboard } from './keyboard';
+import { camera, scene, renderer, objects } from './basic-scene';
 import './modal';
 
 if (WEBGL.isWebGLAvailable()) {
-  let camera, scene, renderer;
   let hitboxPlane;
   let mouse, raycaster;
-  // isShiftDown = false;
 
   let rollOverMesh, rollOverMaterial;
   let cubeGeo, cubeMaterial;
-
-  let objects = [];
 
   init();
   render();
 
   function init() {
-    camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000,
-    );
-    camera.position.set(500, 800, 1300);
-    camera.lookAt(0, 0, 0);
-
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
-
     let rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50);
     rollOverMaterial = new THREE.MeshBasicMaterial({
       color: 0xff0000,
@@ -69,11 +54,6 @@ if (WEBGL.isWebGLAvailable()) {
     let directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(1, 0.75, 0.5).normalize();
     scene.add(directionalLight);
-
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
