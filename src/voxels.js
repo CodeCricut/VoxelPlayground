@@ -15,18 +15,12 @@ import rolloverMesh from './rollover-mesh';
 import { intersectObjectsFromCam } from './camera-raycaster';
 
 import { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
-
-let cubeGeo, cubeMaterial;
+import TexturedCube from './TexturedCube';
 
 export const init = () => {
-  // Add the rollover mesh at the origin
   scene.add(rolloverMesh);
 
-  cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50);
-  cubeMaterial = new THREE.MeshLambertMaterial({
-    color: 0xfeb74c,
-    map: new THREE.TextureLoader().load('static/textures/square.png'),
-  });
+  //dlkhds
 
   let gridHelper = new THREE.GridHelper(1000, 20);
   scene.add(gridHelper);
@@ -86,8 +80,7 @@ const onMouseDown = (event) => {
         removeCollidableFromScene(intersect.object);
       }
     } else {
-      // create new voxel
-      let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+      let voxel = new TexturedCube();
 
       // position on grid
       voxel.position.copy(intersect.point).add(intersect.face.normal);
