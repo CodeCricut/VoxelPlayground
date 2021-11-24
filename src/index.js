@@ -3,9 +3,9 @@ import { init, render } from './voxels';
 import 'bootstrap';
 
 if (WEBGL.isWebGLAvailable()) {
-  init();
-  render();
+    init();
+    render();
 } else {
-  let warning = WEBGL.getWebGLErrorMessage();
-  document.body.appendChild(warning);
+    let warning = WEBGL.getWebGLErrorMessage();
+    document.body.appendChild(warning);
 }
