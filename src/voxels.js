@@ -10,22 +10,15 @@ import {
 } from './basic-scene';
 import './modal';
 import hitboxPlane from './hitbox-plane';
+import rolloverMesh from './rollover-mesh';
 
 let mouse, raycaster;
 
-let rollOverMesh, rollOverMaterial;
 let cubeGeo, cubeMaterial;
 
 export const init = () => {
-  let rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50);
-  rollOverMaterial = new THREE.MeshBasicMaterial({
-    color: 0xff0000,
-    opacity: 0.5,
-    transparent: true,
-  });
-  rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
   // Add the rollover mesh at the origin
-  scene.add(rollOverMesh);
+  scene.add(rolloverMesh);
 
   cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50);
   cubeMaterial = new THREE.MeshLambertMaterial({
@@ -78,13 +71,13 @@ const onDocumentMouseMove = (event) => {
     let intersect = intersects[0];
 
     // Move the rollover mesh to where the position the mouse is pointing
-    rollOverMesh.position
+    rolloverMesh.position
       .copy(intersect.point)
       // Ensure that it is positioned towards the camera, not on the opposite face
       .add(intersect.face.normal);
 
     // position on grid
-    rollOverMesh.position
+    rolloverMesh.position
       // Round to nearest 50 units
       .divideScalar(50)
       .floor()
