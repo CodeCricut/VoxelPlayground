@@ -20,9 +20,7 @@ import TexturedCube from './TexturedCube';
 export const init = () => {
   scene.add(rolloverMesh);
 
-  //dlkhds
-
-  let gridHelper = new THREE.GridHelper(1000, 20);
+  const gridHelper = new THREE.GridHelper(1000, 20);
   scene.add(gridHelper);
 
   addCollidableToScene(hitboxPlane);
@@ -41,26 +39,7 @@ export const init = () => {
 const onMouseMoved = (event) => {
   event.preventDefault();
 
-  const intersects = intersectObjectsFromCam(collidables);
-
-  if (intersects.length > 0) {
-    let intersect = intersects[0];
-
-    // Move the rollover mesh to where the position the mouse is pointing
-    rolloverMesh.position
-      .copy(intersect.point)
-      // Ensure that it is positioned towards the camera, not on the opposite face
-      .add(intersect.face.normal);
-
-    // position on grid
-    rolloverMesh.position
-      // Round to nearest 50 units
-      .divideScalar(50)
-      .floor()
-      .multiplyScalar(50)
-      // Position away from vertices, in the cube
-      .addScalar(25);
-  }
+  updateRolloverLocation();
 
   render();
 };
@@ -69,30 +48,47 @@ const onMouseDown = (event) => {
   event.preventDefault();
 
   // Get position of clicked obj
-  const intersects = intersectObjectsFromCam(collidables);
+  const intersect = intersectObjectsFromCam(collidables);
+  if (!intersect) return;
 
-  if (intersects.length > 0) {
-    let intersect = intersects[0];
-
-    // Remove obj if holding shift
-    if (keyboard.isShiftDown) {
-      if (intersect.object !== hitboxPlane) {
-        removeCollidableFromScene(intersect.object);
-      }
-    } else {
-      let voxel = new TexturedCube();
-
-      // position on grid
-      voxel.position.copy(intersect.point).add(intersect.face.normal);
-      voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
-
-      addCollidableToScene(voxel);
+  // Remove obj if holding shift
+  if (keyboard.isShiftDown) {
+    if (intersect.object !== hitboxPlane) {
+      removeCollidableFromScene(intersect.object);
     }
+  } else {
+    let voxel = new TexturedCube();
 
-    render();
+    // position on grid
+    voxel.position.copy(intersect.point).add(intersect.face.normal);
+    voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+
+    addCollidableToScene(voxel);
   }
+
+  render();
 };
 
 export const render = () => {
   renderer.render(scene, camera);
+};
+
+const updateRolloverLocation = () => {
+  const intersect = intersectObjectsFromCam(collidables);
+  if (!intersect) return;
+
+  // Move the rollover mesh to where the position the mouse is pointing
+  rolloverMesh.position
+    .copy(intersect.point)
+    // Ensure that it is positioned towards the camera, not on the opposite face
+    .add(intersect.face.normal);
+
+  // position on grid
+  rolloverMesh.position
+    // Round to nearest 50 units
+    .divideScalar(50)
+    .floor()
+    .multiplyScalar(50)
+    // Position away from vertices, in the cube
+    .addScalar(25);
 };

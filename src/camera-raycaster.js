@@ -7,5 +7,6 @@ export const raycaster = new THREE.Raycaster();
 
 export const intersectObjectsFromCam = (objects) => {
   raycaster.setFromCamera(mouse, camera);
-  return raycaster.intersectObjects(objects);
+  const intersects = raycaster.intersectObjects(objects);
+  if (intersects.length > 0) return intersects[0];
 };
