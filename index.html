@@ -7,12 +7,23 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="icon" href="static/favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="static/styles/main.css" />
     <title>Three.JS Voxel Playground</title>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS. -->
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="menu"></div>
+    <div class="grid">
+      <div class="menu">
+        <button class="btn btn-primary">Primary</button>
+      </div>
       <canvas id="three-canvas"></canvas>
     </div>
     <script src="public/bundle.js"></script>
