@@ -19,6 +19,8 @@ import Voxel, { CUBE_DIMS, DIRT, STONE } from './Voxel';
 import { snapToIntersect } from './position-helpers';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import { selectedMaterialType } from './material-selector';
+
 export const init = () => {
   scene.add(rolloverMesh);
 
@@ -72,9 +74,9 @@ const addOrRemoveVoxel = () => {
 
 const addVoxelAtIntersect = (intersect) => {
   if (!intersect) return;
-  const dirtMaterial = Voxel.typeToMaterial(DIRT);
-  console.dir(dirtMaterial);
-  const voxel = new Voxel(dirtMaterial);
+  const mat = Voxel.typeToMaterial(selectedMaterialType);
+  console.dir(mat);
+  const voxel = new Voxel(mat);
   snapToIntersect(voxel, intersect);
   addCollidableToScene(voxel);
 };
