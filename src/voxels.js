@@ -14,7 +14,7 @@ import rolloverMesh from './rollover-mesh';
 import { intersectObjectsFromCam } from './camera-raycaster';
 
 import mouse, { MOUSE_MOVED, MOUSE_DOWN, MOUSE_UP } from './mouse';
-import TexturedCube, { CUBE_DIMS } from './TexturedCube';
+import Voxel, { CUBE_DIMS } from './Voxel';
 
 import { snapToIntersect } from './position-helpers';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -72,7 +72,7 @@ const addOrRemoveVoxel = () => {
 
 const addVoxelAtIntersect = (intersect) => {
   if (!intersect) return;
-  const voxel = new TexturedCube();
+  const voxel = new Voxel();
   snapToIntersect(voxel, intersect);
   addCollidableToScene(voxel);
 };

@@ -1,4 +1,4 @@
-import TexturedCube, { CUBE_DIMS } from './TexturedCube';
+import Voxel, { CUBE_DIMS } from './Voxel';
 
 const snapToIntersect = (obj3d, intersect) => {
   obj3d.position

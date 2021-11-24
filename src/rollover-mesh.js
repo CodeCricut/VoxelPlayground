@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { CUBE_DIMS } from './TexturedCube';
+import { CUBE_DIMS } from './Voxel';
 
 const rolloverGeo = new THREE.BoxBufferGeometry(
   CUBE_DIMS,
