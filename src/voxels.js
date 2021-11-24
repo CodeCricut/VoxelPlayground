@@ -17,6 +17,8 @@ import { intersectObjectsFromCam } from './camera-raycaster';
 import { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
 import TexturedCube, { CUBE_DIMS } from './TexturedCube';
 
+import { snapToIntersect } from './position-helpers';
+
 export const init = () => {
   scene.add(rolloverMesh);
 
@@ -36,63 +38,43 @@ export const init = () => {
   document.addEventListener(MOUSE_DOWN, onMouseDown, false);
 };
 
+export const render = () => {
+  renderer.render(scene, camera);
+};
+
 const onMouseMoved = (event) => {
   event.preventDefault();
-
   updateRolloverLocation();
-
   render();
 };
 
 const onMouseDown = (event) => {
   event.preventDefault();
-
-  // Get position of clicked obj
-  const intersect = intersectObjectsFromCam(collidables);
-  if (!intersect) return;
-
-  // Remove obj if holding shift
-  if (keyboard.isShiftDown) {
-    if (intersect.object !== hitboxPlane) {
-      removeCollidableFromScene(intersect.object);
-    }
-  } else {
-    let voxel = new TexturedCube();
-
-    // position on grid
-    voxel.position.copy(intersect.point).add(intersect.face.normal);
-
-    const gridPos = getSnappedGridPos(voxel.position);
-    voxel.position.copy(gridPos);
-
-    addCollidableToScene(voxel);
-  }
-
+  addOrRemoveVoxel();
   render();
 };
 
-export const render = () => {
-  renderer.render(scene, camera);
+const addOrRemoveVoxel = () => {
+  const intersect = intersectObjectsFromCam(collidables);
+
+  // Remove obj if holding shift
+  if (keyboard.isShiftDown && intersect.object !== hitboxPlane)
+    removeObjectAtIntersect(intersect);
+  else addVoxelAtIntersect(intersect);
+};
+
+const addVoxelAtIntersect = (intersect) => {
+  if (!intersect) return;
+  const voxel = new TexturedCube();
+  snapToIntersect(voxel, intersect);
+  addCollidableToScene(voxel);
+};
+
+const removeObjectAtIntersect = (intersect) => {
+  removeCollidableFromScene(intersect.object);
 };
 
 const updateRolloverLocation = () => {
   const intersect = intersectObjectsFromCam(collidables);
-  if (!intersect) return;
-
-  // Move the rollover mesh to where the position the mouse is pointing
-  rolloverMesh.position
-    .copy(intersect.point)
-    // Ensure that it is positioned towards the camera, not on the opposite face
-    .add(intersect.face.normal);
-
-  const gridPos = getSnappedGridPos(rolloverMesh.position);
-  rolloverMesh.position.copy(gridPos);
-};
-
-const getSnappedGridPos = (point) => {
-  return point
-    .divideScalar(CUBE_DIMS)
-    .floor()
-    .multiplyScalar(CUBE_DIMS)
-    .addScalar(CUBE_DIMS / 2);
+  if (intersect) snapToIntersect(rolloverMesh, intersect);
 };
