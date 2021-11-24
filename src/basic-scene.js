@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { objects as collidables, addObject, removeObject } from './objects';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -17,6 +18,9 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.update();
 
 const addCollidableToScene = (collidable) => {
   scene.add(collidable);
