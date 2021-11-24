@@ -12,7 +12,9 @@ import './modal';
 import hitboxPlane from './hitbox-plane';
 import rolloverMesh from './rollover-mesh';
 
-let mouse, raycaster;
+import mouse, { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
+
+let raycaster;
 
 let cubeGeo, cubeMaterial;
 
@@ -30,7 +32,6 @@ export const init = () => {
   scene.add(gridHelper);
 
   raycaster = new THREE.Raycaster();
-  mouse = new THREE.Vector2();
 
   addCollidableToScene(hitboxPlane);
 
@@ -41,8 +42,8 @@ export const init = () => {
   directionalLight.position.set(1, 0.75, 0.5).normalize();
   scene.add(directionalLight);
 
-  document.addEventListener('mousemove', onDocumentMouseMove, false);
-  document.addEventListener('mousedown', onDocumentMouseDown, false);
+  document.addEventListener(MOUSE_MOVED, onMouseMoved, false);
+  document.addEventListener(MOUSE_DOWN, onMouseDown, false);
   document.addEventListener('keydown', onDocumentKeyDown, false);
   document.addEventListener('keyup', onDocumentKeyUp, false);
   window.addEventListener('resize', onWindowResize, false);
@@ -55,13 +56,8 @@ const onWindowResize = () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 };
 
-const onDocumentMouseMove = (event) => {
+const onMouseMoved = (event) => {
   event.preventDefault();
-
-  mouse.set(
-    (event.clientX / window.innerWidth) * 2 - 1,
-    -(event.clientY / window.innerHeight) * 2 + 1,
-  );
 
   raycaster.setFromCamera(mouse, camera);
 
@@ -89,14 +85,8 @@ const onDocumentMouseMove = (event) => {
   render();
 };
 
-const onDocumentMouseDown = (event) => {
+const onMouseDown = (event) => {
   event.preventDefault();
-
-  // Update mouse pos
-  mouse.set(
-    (event.clientX / window.innerWidth) * 2 - 1,
-    -(event.clientY / window.innerHeight) * 2 + 1,
-  );
 
   // Get position of clicked obj
   raycaster.setFromCamera(mouse, camera);
