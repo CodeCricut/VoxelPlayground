@@ -12,10 +12,9 @@ import {
 import './modal';
 import hitboxPlane from './hitbox-plane';
 import rolloverMesh from './rollover-mesh';
+import { intersectObjectsFromCam } from './camera-raycaster';
 
-import mouse, { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
-
-let raycaster;
+import { MOUSE_MOVED, MOUSE_DOWN } from './mouse';
 
 let cubeGeo, cubeMaterial;
 
@@ -31,8 +30,6 @@ export const init = () => {
 
   let gridHelper = new THREE.GridHelper(1000, 20);
   scene.add(gridHelper);
-
-  raycaster = new THREE.Raycaster();
 
   addCollidableToScene(hitboxPlane);
 
@@ -50,9 +47,7 @@ export const init = () => {
 const onMouseMoved = (event) => {
   event.preventDefault();
 
-  raycaster.setFromCamera(mouse, camera);
-
-  let intersects = raycaster.intersectObjects(collidables);
+  const intersects = intersectObjectsFromCam(collidables);
 
   if (intersects.length > 0) {
     let intersect = intersects[0];
@@ -80,9 +75,7 @@ const onMouseDown = (event) => {
   event.preventDefault();
 
   // Get position of clicked obj
-  raycaster.setFromCamera(mouse, camera);
-
-  let intersects = raycaster.intersectObjects(collidables);
+  const intersects = intersectObjectsFromCam(collidables);
 
   if (intersects.length > 0) {
     let intersect = intersects[0];
