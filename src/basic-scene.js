@@ -28,6 +28,15 @@ const removeCollidableFromScene = (collidable) => {
   removeObject(collidable);
 };
 
+const onWindowResize = () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+};
+
+window.addEventListener('resize', onWindowResize, false);
+
 export {
   camera,
   scene,

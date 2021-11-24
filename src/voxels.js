@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { onDocumentKeyDown, onDocumentKeyUp, keyboard } from './keyboard';
+import keyboard from './keyboard';
+
 import {
   camera,
   scene,
@@ -44,16 +45,6 @@ export const init = () => {
 
   document.addEventListener(MOUSE_MOVED, onMouseMoved, false);
   document.addEventListener(MOUSE_DOWN, onMouseDown, false);
-  document.addEventListener('keydown', onDocumentKeyDown, false);
-  document.addEventListener('keyup', onDocumentKeyUp, false);
-  window.addEventListener('resize', onWindowResize, false);
-};
-
-const onWindowResize = () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(window.innerWidth, window.innerHeight);
 };
 
 const onMouseMoved = (event) => {
