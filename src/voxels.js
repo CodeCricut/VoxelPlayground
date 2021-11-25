@@ -62,6 +62,7 @@ const onMouseUp = (event) => {
 };
 
 const addOrRemoveVoxel = () => {
+    console.log('addOrRemoveVoxel called');
     const intersect = intersectObjectsFromCam(collidables);
     // Remove obj if holding shift
     if (intersect && intersect.object) {
