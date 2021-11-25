@@ -8,11 +8,45 @@ const grassBtn = document.getElementById('grass-btn');
 let selectedMaterialType = DIRT;
 
 const selectMaterialType = (material) => {
-  selectedMaterialType = material;
+    selectedMaterialType = material;
 };
 
-dirtBtn.addEventListener('click', () => selectMaterialType(DIRT));
-stoneBtn.addEventListener('click', () => selectMaterialType(STONE));
-grassBtn.addEventListener('click', () => selectMaterialType(GRASS));
+const selectDirt = () => {
+    deselectAllBtns();
+    selectBtn(dirtBtn);
+    selectMaterialType(DIRT);
+};
+
+const selectStone = () => {
+    deselectAllBtns();
+    selectBtn(stoneBtn);
+    selectMaterialType(STONE);
+};
+
+const selectGrass = () => {
+    deselectAllBtns();
+    selectBtn(grassBtn);
+    selectMaterialType(GRASS);
+};
+
+const selectBtn = (btn) => {
+    btn.classList.add('btn-selected');
+};
+
+const deselectAllBtns = () => {
+    deselectBtn(dirtBtn);
+    deselectBtn(stoneBtn);
+    deselectBtn(grassBtn);
+};
+
+const deselectBtn = (btn) => {
+    btn.classList.remove('btn-selected');
+};
+
+dirtBtn.addEventListener('click', selectDirt);
+stoneBtn.addEventListener('click', selectStone);
+grassBtn.addEventListener('click', selectGrass);
+
+selectDirt();
 
 export { selectMaterialType, selectedMaterialType };

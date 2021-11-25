@@ -43,6 +43,11 @@ canvas {
     color: var(--secondary);
 }
 
+.btn-selected {
+    background-color: #212529;
+    color: white;
+}
+
 #three-canvas {
     width: 100% !important;
     height: 100% !important;
