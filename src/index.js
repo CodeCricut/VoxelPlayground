@@ -1,6 +1,5 @@
 import { WEBGL } from './webgl';
 import { init, render } from './voxels';
-import 'bootstrap';
 
 if (WEBGL.isWebGLAvailable()) {
     init();
