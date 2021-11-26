@@ -1,6 +1,6 @@
 const setSize = (container, camera, renderer) => {
     // Update aspect ratio and frustrum
-    camera.aspect = container.innerWidth / container.innerHeight;
+    camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
 
     // Update renderer AND canvas size
