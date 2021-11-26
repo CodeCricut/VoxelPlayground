@@ -30,7 +30,7 @@ class World {
 
         const objectMap = new ObjectMap();
         const coordBasis = createCoordinateBasis();
-        const voxel = new Voxel(new Vector3(1, 0, 1));
+        const voxel = new Voxel(new Vector3(0, 0, 0));
         coordBasis.add(voxel);
         objectMap.addObject(voxel);
 
