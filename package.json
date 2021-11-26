@@ -1,11 +1,11 @@
 {
     "name": "three-js-voxels",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "Minecraft-inspired three.js web app",
+    "private": true,
     "scripts": {
         "build": "webpack --config webpack.config.js",
-        "start": "webpack-dev-server --mode development",
+        "start": "webpack serve --mode development",
         "format": "prettier --write '**/*.js'"
     },
     "keywords": [],
@@ -22,8 +22,11 @@
     },
     "devDependencies": {
         "prettier": "^2.0.4",
-        "webpack": "^4.42.1",
-        "webpack-cli": "^3.3.11",
-        "webpack-dev-server": "^3.11.0"
+        "webpack": "^5.64.4",
+        "webpack-cli": "^4.9.1",
+        "webpack-dev-server": "^4.6.0",
+        "html-webpack-plugin": "^5.5.0",
+        "style-loader": "^3.3.1",
+        "css-loader": "^6.5.1"
     }
 }

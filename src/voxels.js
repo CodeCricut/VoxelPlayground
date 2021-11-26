@@ -88,7 +88,6 @@ const addVoxelAtIntersect = (intersect) => {
     // TODO: this is quick-and-dirty code, should be fixed after complete refactor of app
     console.log(selectMaterialType);
     if (selectedMaterialType === PIG) {
-        console.log('placing pig');
         const pig = new Pig(new THREE.Vector3(CUBE_DIMS, CUBE_DIMS, CUBE_DIMS));
         snapToIntersect(pig, intersect);
         scene.add(pig);
