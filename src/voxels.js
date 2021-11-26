@@ -19,11 +19,21 @@ import Voxel, { CUBE_DIMS, DIRT, STONE } from './Voxel';
 import { snapToIntersect } from './position-helpers';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import { selectedMaterialType } from './material-selector';
+import { selectedMaterialType, selectMaterialType } from './material-selector';
+
+import Loop from './Loop';
+import Pig, { PIG } from './Pig';
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
+let loop;
 export const init = () => {
+    loop = new Loop(camera, scene, renderer);
+    // const pig = new Pig(new THREE.Vector3(CUBE_DIMS, CUBE_DIMS, CUBE_DIMS));
+    // scene.add(pig);
+    // addCollidableToScene(pig);
+    // loop.updatables.push(pig);
+
     scene.add(rolloverMesh);
 
     const gridHelper = new THREE.GridHelper(1000, 20);
@@ -46,7 +56,8 @@ export const init = () => {
 };
 
 export const render = () => {
-    renderer.render(scene, camera);
+    loop.start();
+    // renderer.render(scene, camera);
 };
 
 const onMouseMoved = (event) => {
@@ -62,7 +73,6 @@ const onMouseUp = (event) => {
 };
 
 const addOrRemoveVoxel = () => {
-    console.log('addOrRemoveVoxel called');
     const intersect = intersectObjectsFromCam(collidables);
     // Remove obj if holding shift
     if (intersect && intersect.object) {
@@ -75,9 +85,19 @@ const addOrRemoveVoxel = () => {
 
 const addVoxelAtIntersect = (intersect) => {
     if (!intersect) return;
-    const voxel = new Voxel(Voxel.typeToMaterial(selectedMaterialType));
-    snapToIntersect(voxel, intersect);
-    addCollidableToScene(voxel);
+    // TODO: this is quick-and-dirty code, should be fixed after complete refactor of app
+    console.log(selectMaterialType);
+    if (selectedMaterialType === PIG) {
+        console.log('placing pig');
+        const pig = new Pig(new THREE.Vector3(CUBE_DIMS, CUBE_DIMS, CUBE_DIMS));
+        snapToIntersect(pig, intersect);
+        scene.add(pig);
+        loop.updatables.push(pig);
+    } else {
+        const voxel = new Voxel(Voxel.typeToMaterial(selectedMaterialType));
+        snapToIntersect(voxel, intersect);
+        addCollidableToScene(voxel);
+    }
 };
 
 const updateRolloverLocation = () => {
