@@ -1,13 +1,15 @@
-import { WEBGL } from './webgl';
-import { init, render } from './voxels';
+import { World } from './World/World';
 import '../static/styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-if (WEBGL.isWebGLAvailable()) {
-    init();
-    render();
-} else {
-    let warning = WEBGL.getWebGLErrorMessage();
-    document.body.appendChild(warning);
-}
+const main = () => {
+    const container = document.querySelector('#scene-container');
+    console.dir(container);
+
+    const world = new World(container);
+
+    world.start();
+};
+
+main();
