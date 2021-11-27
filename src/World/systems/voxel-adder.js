@@ -9,13 +9,13 @@ const addVoxel = (coord, voxelParent) => {
     voxelParent.add(voxel);
 };
 
-const createVoxelAdder = (mouse, mouseCoordSelector, voxelParent) => {
+const createVoxelAdder = (mouse, keyboard, mouseCoordSelector, voxelParent) => {
     const voxelAdder = {
         voxelAdded: () => {},
     };
 
     document.addEventListener(MOUSE_UP, () => {
-        if (!mouse.isDragging) {
+        if (!mouse.isDragging && !keyboard.isShiftDown) {
             const selectedCoord = mouseCoordSelector.getSelectedCoord();
             addVoxel(selectedCoord, voxelParent);
             voxelAdder.voxelAdded();

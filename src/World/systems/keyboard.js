@@ -1,8 +1,4 @@
-const keyboard = {
-    isShiftDown: false,
-};
-
-const onDocumentKeyDown = (event) => {
+const onDocumentKeyDown = (event, keyboard) => {
     switch (event.keyCode) {
         case 16:
             keyboard.isShiftDown = true;
@@ -10,7 +6,7 @@ const onDocumentKeyDown = (event) => {
     }
 };
 
-const onDocumentKeyUp = (event) => {
+const onDocumentKeyUp = (event, keyboard) => {
     switch (event.keyCode) {
         case 16:
             keyboard.isShiftDown = false;
@@ -18,7 +14,22 @@ const onDocumentKeyUp = (event) => {
     }
 };
 
-document.addEventListener('keydown', onDocumentKeyDown, false);
-document.addEventListener('keyup', onDocumentKeyUp, false);
+const createKeyboard = () => {
+    const keyboard = {
+        isShiftDown: false,
+    };
 
-export { keyboard };
+    document.addEventListener(
+        'keydown',
+        (event) => onDocumentKeyDown(event, keyboard),
+        false,
+    );
+    document.addEventListener(
+        'keyup',
+        (event) => onDocumentKeyUp(event, keyboard),
+        false,
+    );
+
+    return keyboard;
+};
+export { createKeyboard };

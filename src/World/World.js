@@ -23,6 +23,8 @@ import { VoxelParent } from './components/VoxelParent';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
 import { createVoxelAdder } from './systems/voxel-adder';
+import { createKeyboard } from './systems/keyboard';
+import { createVoxelRemover } from './systems/voxel-remover';
 
 class World {
     #camera;
@@ -53,8 +55,9 @@ class World {
 
         scene.add(gridHelper, ambientLight, coordBasis, directionalLights);
 
-        // Mouse
+        // Mouse and keyboard
         const mouse = createMouse();
+        const keyboard = createKeyboard();
 
         // Collidables
         const collidables = new Collidables();
@@ -91,6 +94,14 @@ class World {
         // Voxel adder
         const voxelAdder = createVoxelAdder(
             mouse,
+            keyboard,
+            mouseCoordSelector,
+            voxelParent,
+        );
+
+        const voxelRemover = createVoxelRemover(
+            mouse,
+            keyboard,
             mouseCoordSelector,
             voxelParent,
         );

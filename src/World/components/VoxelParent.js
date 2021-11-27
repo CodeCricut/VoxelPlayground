@@ -14,6 +14,13 @@ class VoxelParent extends Object3D {
         }
         super.add(...voxels);
     }
+
+    remove(...voxels) {
+        for (const voxel of voxels) {
+            voxelMap.removeObject(voxel);
+        }
+        super.remove(...voxels);
+    }
 }
 
 export { VoxelParent };
