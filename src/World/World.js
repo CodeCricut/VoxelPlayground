@@ -20,6 +20,8 @@ import {
 import { createRolloverMesh } from './components/rollover-mesh';
 import { createCameraRaycaster } from './systems/CameraRaycaster';
 import { VoxelParent } from './components/VoxelParent';
+import { Collidables } from './systems/collidables';
+import { createHitboxPlane } from './components/hitbox-plane';
 
 class World {
     #camera;
@@ -53,15 +55,24 @@ class World {
         // Mouse
         const mouse = createMouse();
 
+        // Collidables
+        const collidables = new Collidables();
+
+        // Hitbox plane
+        const hitboxPlane = createHitboxPlane();
+        scene.add(hitboxPlane);
+        collidables.addCollidables(hitboxPlane);
+
         // Voxel parent
         const voxelParent = new VoxelParent();
         coordBasis.add(voxelParent);
+        collidables.addCollidables(voxelParent);
 
         // Camera raycaster
         const cameraRaycaster = createCameraRaycaster(
             this.#camera,
             mouse,
-            voxelParent.children,
+            collidables.collidables,
             this.#renderer,
         );
 

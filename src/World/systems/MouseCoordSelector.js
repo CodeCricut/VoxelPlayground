@@ -16,13 +16,11 @@ class MouseCoordSelector {
     getSelectedCoord() {
         const selectedIntersect = this.getIntersect();
         if (!selectedIntersect) return null;
-
         const selectedCoord = new Vector3();
         selectedCoord
             .copy(selectedIntersect.point)
-            .multiplyScalar(0.99999)
-            .floor()
             .add(selectedIntersect.face.normal)
+            .multiplyScalar(0.99999)
             .floor();
         return selectedCoord;
     }
