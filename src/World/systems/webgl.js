@@ -1,4 +1,4 @@
-var WEBGL = {
+const WEBGL = {
     isWebGLAvailable: function () {
         try {
             var canvas = document.createElement('canvas');
@@ -44,8 +44,7 @@ var WEBGL = {
             2: window.WebGL2RenderingContext,
         };
 
-        var message =
-            'Your $0 does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">$1</a>';
+        var message = 'Your $0 does not seem to support WebGL';
 
         var element = document.createElement('div');
         element.id = 'webgl-error-message';
