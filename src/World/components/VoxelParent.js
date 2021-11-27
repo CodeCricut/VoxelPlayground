@@ -9,7 +9,6 @@ class VoxelParent extends Object3D {
         super();
     }
     add(...voxels) {
-        console.log('add to voxel store');
         for (const voxel of voxels) {
             voxelMap.addObject(voxel);
         }

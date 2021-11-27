@@ -22,6 +22,7 @@ import { createCameraRaycaster } from './systems/CameraRaycaster';
 import { VoxelParent } from './components/VoxelParent';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
+import { createVoxelAdder } from './systems/voxel-adder';
 
 class World {
     #camera;
@@ -83,9 +84,16 @@ class World {
         // Coord selector
         const mouseCoordSelector = createMouseCoordSelector(cameraRaycaster);
 
-        // Rolover mesh
+        // Rollover mesh
         const rolloverMesh = createRolloverMesh(mouseCoordSelector);
         coordBasis.add(rolloverMesh);
+
+        // Voxel adder
+        const voxelAdder = createVoxelAdder(
+            mouse,
+            mouseCoordSelector,
+            voxelParent,
+        );
 
         // Controls
         const controls = createControls(
