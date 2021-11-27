@@ -1,13 +1,21 @@
 import { BoxBufferGeometry, Mesh, MeshBasicMaterial } from 'three';
+import { COORD_SELECTED } from '../systems/MouseCoordSelector';
 
-const createRolloverMesh = () => {
+const createRolloverMesh = (mouseCoordSelector) => {
     const geometry = new BoxBufferGeometry(1, 1, 1);
-    const material = MeshBasicMaterial({
+    const material = new MeshBasicMaterial({
         color: 'red',
         opacity: 0.5,
         transparent: true,
     });
-    return new Mesh(geometry, material);
+    const rolloverMesh = new Mesh(geometry, material);
+
+    document.addEventListener(COORD_SELECTED, () => {
+        const selectedCoord = mouseCoordSelector.getSelectedCoord();
+        rolloverMesh.position.copy(selectedCoord);
+    });
+
+    return rolloverMesh;
 };
 
 export { createRolloverMesh };

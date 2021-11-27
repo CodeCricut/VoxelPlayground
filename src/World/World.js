@@ -5,60 +5,96 @@ import { createGridHelper } from './components/grid-helper';
 import { Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
 import { createAmbientLight } from './components/ambient-light';
-import { createDirectionalLights } from './components/directional.lights';
+import { createDirectionalLights } from './components/directional-lights';
 import { createCube } from './components/cube';
 import { createControls } from './systems/controls';
 import { createCoordinateBasis } from './components/coordinate-basis';
 import { Voxel } from './components/Voxel';
 import { ObjectMap } from './systems/ObjectMap';
-import { Vector3 } from 'three';
-
-let camera, renderer, scene, resizer, loop;
+import { Raycaster, Vector3 } from 'three';
+import { createMouse, MOUSE_MOVED } from './systems/Mouse';
+import {
+    COORD_SELECTED,
+    createMouseCoordSelector,
+} from './systems/MouseCoordSelector';
+import { createRolloverMesh } from './components/rollover-mesh';
+import { createCameraRaycaster } from './systems/CameraRaycaster';
+import { VoxelParent } from './components/VoxelParent';
 
 class World {
+    #camera;
+    #renderer;
+    #loop;
+
     constructor(container) {
-        camera = createCamera();
-        scene = createScene();
-        renderer = createRenderer();
-        loop = new Loop(camera, scene, renderer);
-        container.append(renderer.domElement);
+        // Scene stuff
+        this.#camera = createCamera();
+        const scene = createScene();
 
-        const ambientLight = createAmbientLight();
-        const directionalLights = createDirectionalLights();
+        this.#renderer = createRenderer();
+        container.append(this.#renderer.domElement);
 
-        const gridHelper = createGridHelper(1, 16);
+        // Loop
+        this.#loop = new Loop(this.#camera, scene, this.#renderer);
 
-        const objectMap = new ObjectMap();
+        // Resizer
+        const resizer = new Resizer(container, this.#camera, this.#renderer);
+
+        // Coord basis
         const coordBasis = createCoordinateBasis();
-        const voxel = new Voxel(new Vector3(0, 0, 0));
-        coordBasis.add(voxel);
-        objectMap.addObject(voxel);
+
+        // Non-voxel items
+        const gridHelper = createGridHelper(1, 16);
+        const directionalLights = createDirectionalLights();
+        const ambientLight = createAmbientLight();
 
         scene.add(gridHelper, ambientLight, coordBasis, directionalLights);
 
-        resizer = new Resizer(container, camera, renderer);
+        // Mouse
+        const mouse = createMouse();
 
-        const controls = createControls(camera, renderer.domElement);
-        controls.target.copy(coordBasis.position);
-        controls.enableDamping = true;
+        // Voxel parent
+        const voxelParent = new VoxelParent();
+        coordBasis.add(voxelParent);
 
-        // If damping is used, must call controls.update
-        // If no animation loop, use controls.addEventListener('change' () => render())
-        loop.updatables.push(controls);
+        // Camera raycaster
+        const cameraRaycaster = createCameraRaycaster(
+            this.#camera,
+            mouse,
+            voxelParent.children,
+            this.#renderer,
+        );
 
-        console.dir(objectMap.getObjectAtPosition(new Vector3(0, 0, 0)));
+        // Test voxel
+        const voxel = new Voxel(new Vector3(0, 0, 0));
+        voxelParent.add(voxel);
+
+        // Coord selector
+        const mouseCoordSelector = createMouseCoordSelector(cameraRaycaster);
+
+        // Rolover mesh
+        const rolloverMesh = createRolloverMesh(mouseCoordSelector);
+        coordBasis.add(rolloverMesh);
+
+        // Controls
+        const controls = createControls(
+            this.#camera,
+            this.#renderer.domElement,
+            coordBasis.position,
+        );
+        this.#loop.updatables.push(controls);
     }
 
     render() {
-        renderer.render();
+        this.#renderer.render();
     }
 
     start() {
-        loop.start();
+        this.#loop.start();
     }
 
     stop() {
-        loop.stop();
+        this.#loop.stop();
     }
 }
 

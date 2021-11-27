@@ -1,27 +1,28 @@
 class ObjectMap {
     #objects;
-    constructor(initialObjects = {}) {
+    constructor(initialObjects = new Map()) {
         this.#objects = initialObjects;
     }
 
     addObject(object) {
-        this.#objects[object.position] = object;
+        this.#objects.set([object.position], object);
     }
 
     getObjectAtPosition(position) {
-        return this.#objects[position];
+        return this.#objects.get(position);
     }
 
     getObjects() {
-        return { ...this.#objects };
+        const objArr = [...this.#objects].map(([location, obj]) => obj);
+        return objArr;
     }
 
     removeObject(object) {
-        delete this.#objects[object.position];
+        this.removeObjectAtPosition(object.position);
     }
 
     removeObjectAtPosition(position) {
-        delete this.#objects[position];
+        this.#objects.delete(position);
     }
 }
 

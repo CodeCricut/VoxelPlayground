@@ -4,62 +4,62 @@ const MOUSE_MOVED = 'MOUSE_MOVED',
     MOUSE_DOWN = 'MOUSE_DOWN',
     MOUSE_UP = 'MOUSE_UP';
 
-class Mouse {
-    constructor() {
-        this.position = new Vector2();
-        this.isDragging = false;
-        this.isDown = false;
-
-        document.addEventListener(
-            'mousemove',
-            this.#onDocumentMouseMove,
-            false,
-        );
-        document.addEventListener(
-            'mousedown',
-            this.#onDocumentMouseDown,
-            false,
-        );
-        document.addEventListener('mouseup', this.#onDocumentMouseUp, false);
+function onDocumentMouseMove(event, mouse) {
+    event.preventDefault();
+    if (mouse.isDown) {
+        mouse.isDragging = true;
     }
+    setPosFromMouseEvent(event, mouse);
+    document.dispatchEvent(new Event(MOUSE_MOVED));
+}
 
-    #onDocumentMouseMove(event) {
-        event.preventDefault();
-        if (this.isDown) {
-            this.isDragging = true;
-        }
-        this.#setPosFromMouseEvent(event);
+function onDocumentMouseDown(event, mouse) {
+    event.preventDefault();
 
-        this.dispatchEvent(new Event(MOUSE_MOVED));
-    }
+    mouse.isDown = true;
 
-    #onDocumentMouseDown(event) {
-        event.preventDefault();
+    setPosFromMouseEvent(event, mouse);
 
-        this.isDown = true;
+    document.dispatchEvent(new Event(MOUSE_DOWN));
+}
 
-        this.#setPosFromMouseEvent(event);
+function onDocumentMouseUp(event, mouse) {
+    event.preventDefault();
 
-        this.dispatchEvent(new Event(MOUSE_DOWN));
-    }
+    mouse.isDown = false;
 
-    #onDocumentMouseUp(event) {
-        event.preventDefault();
-        this.isDown = false;
-        this.dispatchEvent(new Event(MOUSE_UP));
-        this.isDragging = false;
-    }
+    document.dispatchEvent(new Event(MOUSE_UP));
 
-    #setPosFromMouseEvent(event) {
-        const element = event.target;
-        if (element instanceof HTMLCanvasElement) {
-            const rect = event.target.getBoundingClientRect();
-            // Calculate mouse position, normalized between -1 to +1 for both x and y
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            this.position.set(x, y);
-        }
+    mouse.isDragging = false;
+}
+
+function setPosFromMouseEvent(event, mouse) {
+    const element = event.target;
+    if (element instanceof HTMLCanvasElement) {
+        const rect = event.target.getBoundingClientRect();
+        // Calculate mouse position, normalized between -1 to +1 for both x and y
+        const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        mouse.position.set(x, y);
     }
 }
 
-export { Mouse, MOUSE_UP, MOUSE_DOWN, MOUSE_MOVED };
+const createMouse = () => {
+    const mouse = { isDraggin: false, isDown: false, position: new Vector2() };
+    document.addEventListener('mousemove', (event) =>
+        onDocumentMouseMove(event, mouse),
+    );
+    document.addEventListener(
+        'mousedown',
+        (event) => onDocumentMouseDown(event, mouse),
+        false,
+    );
+    document.addEventListener(
+        'mouseup',
+        (event) => onDocumentMouseUp(event, mouse),
+        false,
+    );
+
+    return mouse;
+};
+export { createMouse, MOUSE_UP, MOUSE_DOWN, MOUSE_MOVED };

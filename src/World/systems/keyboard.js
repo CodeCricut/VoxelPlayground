@@ -1,24 +1,24 @@
 const keyboard = {
-  isShiftDown: false,
+    isShiftDown: false,
 };
 
 const onDocumentKeyDown = (event) => {
-  switch (event.keyCode) {
-    case 16:
-      keyboard.isShiftDown = true;
-      break;
-  }
+    switch (event.keyCode) {
+        case 16:
+            keyboard.isShiftDown = true;
+            break;
+    }
 };
 
 const onDocumentKeyUp = (event) => {
-  switch (event.keyCode) {
-    case 16:
-      keyboard.isShiftDown = false;
-      break;
-  }
+    switch (event.keyCode) {
+        case 16:
+            keyboard.isShiftDown = false;
+            break;
+    }
 };
 
 document.addEventListener('keydown', onDocumentKeyDown, false);
 document.addEventListener('keyup', onDocumentKeyUp, false);
 
-export default keyboard;
+export { keyboard };
