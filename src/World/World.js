@@ -28,6 +28,7 @@ import { createKeyboard } from './systems/keyboard';
 import { createVoxelRemover } from './systems/voxel-remover';
 import { createVoxelFactory } from './systems/voxel-factory';
 import { DIRT } from './utility/voxel-types';
+import { createSkyDome } from './components/sky-dome';
 
 class World {
     #camera;
@@ -55,9 +56,15 @@ class World {
         const gridHelper = createGridHelper(1, 16);
         const directionalLights = createDirectionalLights();
         const hemisphereLight = createHemisphereLight();
-        // const ambientLight = createAmbientLight();
+        const skyDome = createSkyDome();
 
-        scene.add(gridHelper, hemisphereLight, coordBasis, directionalLights);
+        scene.add(
+            gridHelper,
+            hemisphereLight,
+            coordBasis,
+            directionalLights,
+            skyDome,
+        );
 
         // Mouse and keyboard
         const mouse = createMouse(this.#renderer.domElement);
