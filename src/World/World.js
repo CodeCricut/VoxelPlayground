@@ -60,7 +60,7 @@ class World {
         scene.add(gridHelper, hemisphereLight, coordBasis, directionalLights);
 
         // Mouse and keyboard
-        const mouse = createMouse();
+        const mouse = createMouse(this.#renderer.domElement);
         const keyboard = createKeyboard();
 
         // Collidables

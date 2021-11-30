@@ -44,17 +44,17 @@ function setPosFromMouseEvent(event, mouse) {
     }
 }
 
-const createMouse = () => {
+const createMouse = (canvas) => {
     const mouse = { isDraggin: false, isDown: false, position: new Vector2() };
-    document.addEventListener('mousemove', (event) =>
+    canvas.addEventListener('mousemove', (event) =>
         onDocumentMouseMove(event, mouse),
     );
-    document.addEventListener(
+    canvas.addEventListener(
         'mousedown',
         (event) => onDocumentMouseDown(event, mouse),
         false,
     );
-    document.addEventListener(
+    canvas.addEventListener(
         'mouseup',
         (event) => onDocumentMouseUp(event, mouse),
         false,
