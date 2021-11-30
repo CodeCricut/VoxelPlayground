@@ -1,7 +1,7 @@
 import { World } from './World/World';
-import '../static/styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../static/styles/main.css';
 import { WEBGL } from './World/systems/webgl';
 
 const main = () => {
