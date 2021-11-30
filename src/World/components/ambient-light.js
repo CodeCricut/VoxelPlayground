@@ -1,7 +1,7 @@
 import { AmbientLight } from 'three';
 
 const createAmbientLight = () => {
-    return new AmbientLight(0x606060, 8);
+    return new AmbientLight('white', 5);
 };
 
 export { createAmbientLight };

@@ -1,17 +1,24 @@
 import { Voxel } from '../components/Voxel';
+import { DIRT } from '../utility/voxel-types';
 import { MOUSE_UP } from './Mouse';
 import { COORD_SELECTED } from './MouseCoordSelector';
 
 const VOXEL_ADDED = 'VOXEL_ADDED';
 
-const addVoxel = (coord, voxelParent) => {
-    const voxel = new Voxel(coord);
-    voxelParent.add(voxel);
-};
-
-const createVoxelAdder = (mouse, keyboard, mouseCoordSelector, voxelParent) => {
+const createVoxelAdder = (
+    mouse,
+    keyboard,
+    mouseCoordSelector,
+    voxelParent,
+    voxelFactory,
+) => {
     const voxelAdder = {
         voxelAdded: () => {},
+    };
+
+    const addVoxel = (coord, voxelParent) => {
+        const voxel = voxelFactory.createVoxel(DIRT, coord);
+        voxelParent.add(voxel);
     };
 
     document.addEventListener(MOUSE_UP, () => {

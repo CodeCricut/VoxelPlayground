@@ -25,6 +25,8 @@ import { createHitboxPlane } from './components/hitbox-plane';
 import { createVoxelAdder } from './systems/voxel-adder';
 import { createKeyboard } from './systems/keyboard';
 import { createVoxelRemover } from './systems/voxel-remover';
+import { createVoxelFactory } from './systems/voxel-factory';
+import { DIRT } from './utility/voxel-types';
 
 class World {
     #camera;
@@ -80,8 +82,11 @@ class World {
             this.#renderer,
         );
 
+        // Voxel factory
+        const voxelFactory = createVoxelFactory(this.#renderer);
+
         // Test voxel
-        const voxel = new Voxel(new Vector3(0, 0, 0));
+        const voxel = voxelFactory.createVoxel(DIRT);
         voxelParent.add(voxel);
 
         // Coord selector
@@ -97,6 +102,7 @@ class World {
             keyboard,
             mouseCoordSelector,
             voxelParent,
+            voxelFactory,
         );
 
         const voxelRemover = createVoxelRemover(

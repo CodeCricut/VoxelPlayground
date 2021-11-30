@@ -6,7 +6,7 @@ import {
 } from 'three';
 
 const createDirectionalLights = () => {
-    const light = new DirectionalLight('white', 8);
+    const light = new DirectionalLight('white', 1);
 
     // DirectionalLight shines from light.position to light.target.position
     light.position.set(10, 10, 10);
