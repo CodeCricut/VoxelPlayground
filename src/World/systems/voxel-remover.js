@@ -12,7 +12,7 @@ const createVoxelRemover = (
     mouse,
     keyboard,
     mouseCoordSelector,
-    voxelParent,
+    voxelGroup,
 ) => {
     const voxelRemover = {
         voxelRemoved: () => {},
@@ -21,7 +21,7 @@ const createVoxelRemover = (
     document.addEventListener(MOUSE_UP, () => {
         if (!mouse.isDragging && keyboard.isShiftDown) {
             const intersect = mouseCoordSelector.getIntersect();
-            removeVoxel(intersect, voxelParent);
+            removeVoxel(intersect, voxelGroup);
             voxelRemover.voxelRemoved();
         }
     });

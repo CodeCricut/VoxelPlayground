@@ -20,7 +20,7 @@ import {
 } from './systems/MouseCoordSelector';
 import { createRolloverMesh } from './components/rollover-mesh';
 import { createCameraRaycaster } from './systems/CameraRaycaster';
-import { VoxelParent } from './components/VoxelParent';
+import { VoxelGroup } from './components/VoxelGroup';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
 import { createVoxelAdder } from './systems/voxel-adder';
@@ -73,9 +73,9 @@ class World {
         collidables.addCollidables(hitboxPlane);
 
         // Voxel parent
-        const voxelParent = new VoxelParent();
-        coordBasis.add(voxelParent);
-        collidables.addCollidables(voxelParent);
+        const voxelGroup = new VoxelGroup();
+        coordBasis.add(voxelGroup);
+        collidables.addCollidables(voxelGroup);
 
         // Ground
         const ground = createGround();
@@ -96,7 +96,7 @@ class World {
 
         // Test voxel
         const voxel = voxelFactory.createVoxel(DIRT);
-        voxelParent.add(voxel);
+        voxelGroup.add(voxel);
 
         // Coord selector
         const mouseCoordSelector = createMouseCoordSelector(cameraRaycaster);
@@ -110,7 +110,7 @@ class World {
             mouse,
             keyboard,
             mouseCoordSelector,
-            voxelParent,
+            voxelGroup,
             voxelFactory,
         );
 
@@ -118,7 +118,7 @@ class World {
             mouse,
             keyboard,
             mouseCoordSelector,
-            voxelParent,
+            voxelGroup,
         );
 
         // Controls

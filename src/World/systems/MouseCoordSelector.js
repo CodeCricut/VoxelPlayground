@@ -17,7 +17,6 @@ class MouseCoordSelector {
         const selectedIntersect = this.getIntersect();
         if (!selectedIntersect) return null;
         const selectedCoord = new Vector3();
-        console.log(selectedIntersect);
         const normal = selectedIntersect.face.normal
             .clone()
             .multiplyScalar(0.1);
