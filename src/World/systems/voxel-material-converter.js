@@ -21,7 +21,7 @@ const typeToMaterial = (type) => {
         normalMap: grassNormalMap,
         normalScale: new Vector2(0.1, 0.1),
         map: testTextureMap,
-        color: 0xfc03df,
+        color: 0x15450c,
     });
 
     switch (type) {
