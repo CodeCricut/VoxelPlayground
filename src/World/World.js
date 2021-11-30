@@ -5,6 +5,7 @@ import { createGridHelper } from './components/grid-helper';
 import { Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
 import { createAmbientLight } from './components/ambient-light';
+import { createHemisphereLight } from './components/hemisphere-light';
 import { createDirectionalLights } from './components/directional-lights';
 import { createCube } from './components/cube';
 import { createControls } from './systems/controls';
@@ -53,9 +54,10 @@ class World {
         // Non-voxel items
         const gridHelper = createGridHelper(1, 16);
         const directionalLights = createDirectionalLights();
-        const ambientLight = createAmbientLight();
+        const hemisphereLight = createHemisphereLight();
+        // const ambientLight = createAmbientLight();
 
-        scene.add(gridHelper, ambientLight, coordBasis, directionalLights);
+        scene.add(gridHelper, hemisphereLight, coordBasis, directionalLights);
 
         // Mouse and keyboard
         const mouse = createMouse();
