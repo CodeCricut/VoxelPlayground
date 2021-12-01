@@ -13,7 +13,6 @@ import { createCoordinateBasis } from './components/coordinate-basis';
 import { Voxel } from './components/Voxel';
 import { ObjectMap } from './systems/ObjectMap';
 import { Raycaster, Vector3 } from 'three';
-import { createMouse, MOUSE_MOVED } from './systems/Mouse';
 import {
     COORD_SELECTED,
     createMouseCoordSelector,
@@ -26,12 +25,15 @@ import { createHitboxPlane } from './components/hitbox-plane';
 import { createVoxelAdder } from './systems/voxel-adder';
 import { addVoxelOnClick } from './systems/mouse-voxel-adder';
 import { removeVoxelOnShiftClick } from './systems/mouse-voxel-remover';
-import { createKeyboard } from './systems/keyboard';
+import { createKeyboard } from './systems/Keyboard';
 import { createVoxelRemover } from './systems/voxel-remover';
 import { createVoxelFactory } from './systems/voxel-factory';
 import { DIRT } from './utility/voxel-types';
 import { createSkyDome } from './components/sky-dome';
 import { createGround } from './components/ground';
+
+import { Mouse } from './systems/Mouse';
+import { Keyboard } from './systems/Keyboard';
 
 class World {
     #camera;
@@ -63,8 +65,8 @@ class World {
         scene.add(hemisphereLight, coordBasis, directionalLights, skyDome);
 
         // Mouse and keyboard
-        const mouse = createMouse(this.#renderer.domElement);
-        const keyboard = createKeyboard();
+        const mouse = new Mouse();
+        const keyboard = new Keyboard();
 
         // Collidables
         const collidables = new Collidables();
