@@ -2,7 +2,7 @@ import { createCamera } from './components/camera';
 import { createScene } from './components/scene';
 import { createRenderer } from './systems/renderer';
 import { createGridHelper } from './components/grid-helper';
-import { Resizer } from './systems/Resizer';
+import { RESIZED, Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
 import { createAmbientLight } from './components/ambient-light';
 import { createHemisphereLight } from './components/hemisphere-light';

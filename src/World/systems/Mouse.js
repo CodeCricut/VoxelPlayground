@@ -54,10 +54,11 @@ class Mouse extends EventDispatcher {
 
     constructor() {
         super();
-        isDown = false;
-        isDragging = false;
+        this.isDown = false;
+        this.isDragging = false;
         this.positionScreen = new Vector2();
         this.positionNormalized = new Vector2();
+        this.positionCanvas = new Vector2();
 
         document.addEventListener('mousemove', (event) =>
             onDocumentMouseMove(event, this),

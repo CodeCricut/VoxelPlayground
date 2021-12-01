@@ -1,3 +1,7 @@
+import { EventDispatcher } from 'three';
+
+export const RESIZED = 'RESIZED';
+
 const setSize = (container, camera, renderer) => {
     // Update aspect ratio and frustrum
     camera.aspect = container.clientWidth / container.clientHeight;
@@ -9,19 +13,16 @@ const setSize = (container, camera, renderer) => {
     renderer.setPixelRatio(window.devicePixelRatio);
 };
 
-class Resizer {
+class Resizer extends EventDispatcher {
     constructor(container, camera, renderer) {
+        super();
         setSize(container, camera, renderer);
 
         window.addEventListener('resize', () => {
             setSize(container, camera, renderer);
-            this.onResize();
+            this.dispatchEvent({ type: RESIZED });
         });
     }
-
-    // We can 'hook' into onResize outside of the class
-    // If you aren't rendering every frame, you should hook into this to render when this is called
-    onResize() {}
 }
 
 export { Resizer };
