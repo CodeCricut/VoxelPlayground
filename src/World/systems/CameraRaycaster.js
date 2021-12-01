@@ -1,16 +1,31 @@
-import { Raycaster } from 'three';
+import { EventDispatcher, Raycaster } from 'three';
+import { MOUSE_MOVED } from './Mouse';
 
-class CameraRaycaster {
+export const RAYCASTER_UPDATED = 'RAYCASTER_UPDATED';
+
+class CameraRaycaster extends EventDispatcher {
     #raycaster;
     #objects;
+    #mouse;
+    #camera;
     constructor(camera, mouse, objects) {
+        super();
         this.#raycaster = new Raycaster();
         this.#objects = objects;
-        this.#raycaster.setFromCamera(mouse.position, camera);
+        this.#mouse = mouse;
+        this.#camera = camera;
+
+        this.update();
+
+        mouse.addEventListener(MOUSE_MOVED, () => this.update());
     }
 
-    update(mouse, camera) {
-        this.#raycaster.setFromCamera(mouse.position, camera);
+    update() {
+        this.#raycaster.setFromCamera(
+            this.#mouse.positionNormalized,
+            this.#camera,
+        );
+        this.dispatchEvent({ type: RAYCASTER_UPDATED });
     }
 
     getIntersects() {
@@ -22,14 +37,4 @@ class CameraRaycaster {
     }
 }
 
-const createCameraRaycaster = (camera, mouse, objects, renderer) => {
-    const cameraRaycaster = new CameraRaycaster(camera, mouse, objects);
-    renderer.domElement.addEventListener(
-        'mousemove',
-        () => cameraRaycaster.update(mouse, camera),
-        false,
-    );
-    return cameraRaycaster;
-};
-
-export { createCameraRaycaster };
+export { CameraRaycaster };

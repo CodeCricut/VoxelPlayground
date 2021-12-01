@@ -18,7 +18,6 @@ import {
     createMouseCoordSelector,
 } from './systems/MouseCoordSelector';
 import { createRolloverMesh } from './components/rollover-mesh';
-import { createCameraRaycaster } from './systems/CameraRaycaster';
 import { VoxelGroup } from './components/VoxelGroup';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
@@ -34,6 +33,7 @@ import { createGround } from './components/ground';
 
 import { Mouse } from './systems/Mouse';
 import { Keyboard } from './systems/Keyboard';
+import { CameraRaycaster, RAYCASTER_UPDATED } from './systems/CameraRaycaster';
 
 class World {
     #camera;
@@ -88,11 +88,10 @@ class World {
         collidables.addCollidables(ground);
 
         // Camera raycaster
-        const cameraRaycaster = createCameraRaycaster(
+        const cameraRaycaster = new CameraRaycaster(
             this.#camera,
             mouse,
             collidables.collidables,
-            this.#renderer,
         );
 
         // Voxel factory
