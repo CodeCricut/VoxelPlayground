@@ -1,28 +1,40 @@
-import { Clock } from 'three';
+import { Clock, EventDispatcher } from 'three';
 
-const clock = new Clock();
+export const LOOP_STARTED = 'LOOP_STARTED',
+    LOOP_ENDED = 'LOOP_ENDED';
 
-class Loop {
+class Loop extends EventDispatcher {
+    #clock;
+    #camera;
+    #scene;
+    #renderer;
+    updatables;
+
     constructor(camera, scene, renderer) {
-        this.camera = camera;
-        this.scene = scene;
-        this.renderer = renderer;
+        super();
+        this.#clock = new Clock();
+        this.#camera = camera;
+        this.#scene = scene;
+        this.#renderer = renderer;
+
         this.updatables = [];
     }
 
     start() {
-        this.renderer.setAnimationLoop(() => {
-            this.renderer.render(this.scene, this.camera);
+        this.#renderer.setAnimationLoop(() => {
+            this.#renderer.render(this.#scene, this.#camera);
             this.tick();
         });
+        this.dispatchEvent({ type: LOOP_STARTED });
     }
 
     end() {
-        this.renderer.setAnimationLoop(null);
+        this.#renderer.setAnimationLoop(null);
+        this.dispatchEvent({ type: LOOP_ENDED });
     }
 
     tick() {
-        const delta = clock.getDelta();
+        const delta = this.#clock.getDelta();
         for (const obj of this.updatables) {
             obj.tick(delta);
         }

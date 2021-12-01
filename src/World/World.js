@@ -1,8 +1,6 @@
 import { createCamera } from './components/camera';
 import { createScene } from './components/scene';
 import { createRenderer } from './systems/renderer';
-import { Resizer } from './systems/Resizer';
-import { Loop } from './systems/Loop';
 import { createHemisphereLight } from './components/hemisphere-light';
 import { createDirectionalLights } from './components/directional-lights';
 import { createControls } from './systems/controls';
@@ -15,6 +13,8 @@ import { createHitboxPlane } from './components/hitbox-plane';
 import { createSkyDome } from './components/sky-dome';
 import { createGround } from './components/ground';
 
+import { Loop } from './systems/Loop';
+import { Resizer } from './systems/Resizer';
 import { Mouse } from './systems/Mouse';
 import { Keyboard } from './systems/Keyboard';
 import { CameraRaycaster } from './systems/CameraRaycaster';
@@ -22,11 +22,8 @@ import { MouseCoordSelector } from './systems/MouseCoordSelector';
 import { VoxelAdder } from './systems/VoxelAdder';
 import { MouseVoxelAdder } from './systems/MouseVoxelAdder';
 import { MaterialSelector } from './systems/MaterialSelector';
-import { VoxelRemover, VOXEL_REMOVED } from './systems/VoxelRemover';
-import {
-    MouseVoxelRemover,
-    VOXEL_REMOVED_BY_MOUSE,
-} from './systems/MouseVoxelRemover';
+import { VoxelRemover } from './systems/VoxelRemover';
+import { MouseVoxelRemover } from './systems/MouseVoxelRemover';
 
 class World {
     #camera;
