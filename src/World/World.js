@@ -13,10 +13,7 @@ import { createCoordinateBasis } from './components/coordinate-basis';
 import { Voxel } from './components/Voxel';
 import { ObjectMap } from './systems/ObjectMap';
 import { Raycaster, Vector3 } from 'three';
-import {
-    COORD_SELECTED,
-    createMouseCoordSelector,
-} from './systems/MouseCoordSelector';
+
 import { createRolloverMesh } from './components/rollover-mesh';
 import { VoxelGroup } from './components/VoxelGroup';
 import { Collidables } from './systems/collidables';
@@ -34,6 +31,10 @@ import { createGround } from './components/ground';
 import { Mouse } from './systems/Mouse';
 import { Keyboard } from './systems/Keyboard';
 import { CameraRaycaster, RAYCASTER_UPDATED } from './systems/CameraRaycaster';
+import {
+    COORD_CLICKED,
+    MouseCoordSelector,
+} from './systems/MouseCoordSelector';
 
 class World {
     #camera;
@@ -102,11 +103,15 @@ class World {
         voxelGroup.add(voxel);
 
         // Coord selector
-        const mouseCoordSelector = createMouseCoordSelector(
+        const mouseCoordSelector = new MouseCoordSelector(
             cameraRaycaster,
             mouse,
             keyboard,
         );
+        mouseCoordSelector.addEventListener(COORD_CLICKED, () => {
+            const coord = mouseCoordSelector.getSelectedCoord();
+            console.dir(coord);
+        });
 
         // Rollover mesh
         const rolloverMesh = createRolloverMesh(mouseCoordSelector);
