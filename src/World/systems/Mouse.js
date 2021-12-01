@@ -4,7 +4,13 @@ const MOUSE_MOVED = 'MOUSE_MOVED',
     MOUSE_DOWN = 'MOUSE_DOWN',
     MOUSE_UP = 'MOUSE_UP';
 
+function isCanvasEvent(event) {
+    return event.target instanceof HTMLCanvasElement;
+}
+
 function onDocumentMouseMove(event, mouse) {
+    if (!isCanvasEvent(event)) return;
+
     if (mouse.isDown) {
         mouse.isDragging = true;
     }
@@ -13,12 +19,14 @@ function onDocumentMouseMove(event, mouse) {
 }
 
 function onDocumentMouseDown(event, mouse) {
+    if (!isCanvasEvent(event)) return;
     mouse.isDown = true;
     setPosFromMouseEvent(event, mouse);
     mouse.dispatchEvent({ type: MOUSE_DOWN });
 }
 
 function onDocumentMouseUp(event, mouse) {
+    if (!isCanvasEvent(event)) return;
     mouse.isDown = false;
     setPosFromMouseEvent(event, mouse);
     mouse.dispatchEvent({ type: MOUSE_UP });
@@ -26,23 +34,21 @@ function onDocumentMouseUp(event, mouse) {
 }
 
 function setPosFromMouseEvent(event, mouse) {
-    const element = event.target;
-    if (element instanceof HTMLCanvasElement) {
-        event.preventDefault();
+    if (!isCanvasEvent(event)) return;
+    event.preventDefault();
 
-        const rect = event.target.getBoundingClientRect();
+    const rect = event.target.getBoundingClientRect();
 
-        mouse.positionScreen.set(event.clientX, event.clientY);
-        mouse.positionCanvas.set(
-            event.clientX - rect.left,
-            event.clientY - rect.top,
-        );
+    mouse.positionScreen.set(event.clientX, event.clientY);
+    mouse.positionCanvas.set(
+        event.clientX - rect.left,
+        event.clientY - rect.top,
+    );
 
-        // Calculate mouse position, normalized between -1 to +1 for both x and y
-        const normalizedX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        const normalizedY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        mouse.positionNormalized.set(normalizedX, normalizedY);
-    }
+    // Calculate mouse position, normalized between -1 to +1 for both x and y
+    const normalizedX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const normalizedY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    mouse.positionNormalized.set(normalizedX, normalizedY);
 }
 
 class Mouse extends EventDispatcher {
@@ -52,7 +58,7 @@ class Mouse extends EventDispatcher {
     positionCanvas;
     positionNormalized;
 
-    constructor() {
+    constructor(canvas) {
         super();
         this.isDown = false;
         this.isDragging = false;
