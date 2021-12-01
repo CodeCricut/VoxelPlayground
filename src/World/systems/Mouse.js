@@ -45,7 +45,7 @@ function setPosFromMouseEvent(event, mouse) {
 }
 
 const createMouse = (canvas) => {
-    const mouse = { isDraggin: false, isDown: false, position: new Vector2() };
+    const mouse = { isDragging: false, isDown: false, position: new Vector2() };
     canvas.addEventListener('mousemove', (event) =>
         onDocumentMouseMove(event, mouse),
     );

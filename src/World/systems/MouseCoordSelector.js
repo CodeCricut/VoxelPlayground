@@ -1,12 +1,16 @@
 import { MOUSE_MOVED, MOUSE_UP, MOUSE_DOWN } from './Mouse';
 import { Object3D, RedIntegerFormat, Vector3 } from 'three';
 
-const COORD_SELECTED = 'VOXEL_SELECTED';
+export const COORD_HOVERED = 'COORD_HOVERED',
+    COORD_CLICKED = 'COORD_CLICKED',
+    COORD_SHIFT_CLICKED = 'COORD_SHIFT_CLICKED';
 
 class MouseCoordSelector {
     #cameraRaycaster;
-    constructor(cameraRaycaster) {
+    #mouse;
+    constructor(cameraRaycaster, mouse) {
         this.#cameraRaycaster = cameraRaycaster;
+        this.#mouse = mouse;
     }
 
     getIntersect() {
@@ -30,14 +34,30 @@ class MouseCoordSelector {
     }
 }
 
-const createMouseCoordSelector = (cameraRaycaster) => {
+const createMouseCoordSelector = (cameraRaycaster, mouse, keyboard) => {
     const mouseCoordSelector = new MouseCoordSelector(cameraRaycaster);
+
     document.addEventListener(MOUSE_MOVED, () => {
         const selectedCoord = mouseCoordSelector.getSelectedCoord();
         if (selectedCoord != null)
-            document.dispatchEvent(new Event(COORD_SELECTED));
+            document.dispatchEvent(new Event(COORD_HOVERED));
     });
+
+    document.addEventListener(MOUSE_UP, () => {
+        if (!mouse.isDragging) {
+            const selectedCoord = mouseCoordSelector.getSelectedCoord();
+            if (selectedCoord != null) {
+                if (keyboard.isShiftDown) {
+                    document.dispatchEvent(new Event(COORD_SHIFT_CLICKED));
+                } else {
+                    document.dispatchEvent(new Event(COORD_CLICKED));
+                    // voxelAdder.addVoxel(selectedCoord, voxelGroup);
+                }
+            }
+        }
+    });
+
     return mouseCoordSelector;
 };
 
-export { createMouseCoordSelector, COORD_SELECTED };
+export { createMouseCoordSelector };

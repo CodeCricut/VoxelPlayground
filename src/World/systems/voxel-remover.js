@@ -1,30 +1,18 @@
 import { Voxel } from '../components/Voxel';
 import { MOUSE_UP } from './Mouse';
 
-const removeVoxel = (intersect, voxelParent) => {
-    const obj = intersect.object;
-    if (obj instanceof Voxel) {
-        voxelParent.remove(obj);
-    }
-};
-
-const createVoxelRemover = (
-    mouse,
-    keyboard,
-    mouseCoordSelector,
-    voxelGroup,
-) => {
-    const voxelRemover = {
-        voxelRemoved: () => {},
+const createVoxelRemover = () => {
+    const removeVoxel = (intersect, voxelParent) => {
+        const obj = intersect.object;
+        if (obj instanceof Voxel) {
+            voxelParent.remove(obj);
+        }
     };
 
-    document.addEventListener(MOUSE_UP, () => {
-        if (!mouse.isDragging && keyboard.isShiftDown) {
-            const intersect = mouseCoordSelector.getIntersect();
-            removeVoxel(intersect, voxelGroup);
-            voxelRemover.voxelRemoved();
-        }
-    });
+    const voxelRemover = {
+        voxelRemoved: () => {},
+        removeVoxel: removeVoxel,
+    };
 
     return voxelRemover;
 };

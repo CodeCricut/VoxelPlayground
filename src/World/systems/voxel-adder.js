@@ -1,33 +1,18 @@
-import { Voxel } from '../components/Voxel';
-import { DIRT } from '../utility/voxel-types';
-import { MOUSE_UP } from './Mouse';
-import { COORD_SELECTED } from './MouseCoordSelector';
 import { selectedMaterialType } from './material-selector';
+
 const VOXEL_ADDED = 'VOXEL_ADDED';
 
-const createVoxelAdder = (
-    mouse,
-    keyboard,
-    mouseCoordSelector,
-    voxelParent,
-    voxelFactory,
-) => {
-    const voxelAdder = {
-        voxelAdded: () => {},
-    };
-
+const createVoxelAdder = (voxelFactory) => {
     const addVoxel = (coord, voxelParent) => {
         const voxel = voxelFactory.createVoxel(selectedMaterialType, coord);
         voxelParent.add(voxel);
+        voxelAdder.voxelAdded();
     };
 
-    document.addEventListener(MOUSE_UP, () => {
-        if (!mouse.isDragging && !keyboard.isShiftDown) {
-            const selectedCoord = mouseCoordSelector.getSelectedCoord();
-            addVoxel(selectedCoord, voxelParent);
-            voxelAdder.voxelAdded();
-        }
-    });
+    const voxelAdder = {
+        addVoxel: addVoxel,
+        voxelAdded: () => {},
+    };
 
     return voxelAdder;
 };

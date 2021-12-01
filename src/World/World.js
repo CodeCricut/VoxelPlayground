@@ -24,6 +24,8 @@ import { VoxelGroup } from './components/VoxelGroup';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
 import { createVoxelAdder } from './systems/voxel-adder';
+import { addVoxelOnClick } from './systems/mouse-voxel-adder';
+import { removeVoxelOnShiftClick } from './systems/mouse-voxel-remover';
 import { createKeyboard } from './systems/keyboard';
 import { createVoxelRemover } from './systems/voxel-remover';
 import { createVoxelFactory } from './systems/voxel-factory';
@@ -99,20 +101,19 @@ class World {
         voxelGroup.add(voxel);
 
         // Coord selector
-        const mouseCoordSelector = createMouseCoordSelector(cameraRaycaster);
+        const mouseCoordSelector = createMouseCoordSelector(
+            cameraRaycaster,
+            mouse,
+            keyboard,
+        );
 
         // Rollover mesh
         const rolloverMesh = createRolloverMesh(mouseCoordSelector);
         coordBasis.add(rolloverMesh);
 
         // Voxel adder
-        const voxelAdder = createVoxelAdder(
-            mouse,
-            keyboard,
-            mouseCoordSelector,
-            voxelGroup,
-            voxelFactory,
-        );
+        const voxelAdder = createVoxelAdder(voxelFactory);
+        addVoxelOnClick(mouseCoordSelector, voxelGroup, voxelAdder);
 
         const voxelRemover = createVoxelRemover(
             mouse,
@@ -120,6 +121,7 @@ class World {
             mouseCoordSelector,
             voxelGroup,
         );
+        removeVoxelOnShiftClick(mouseCoordSelector, voxelGroup, voxelRemover);
 
         // Controls
         const controls = createControls(

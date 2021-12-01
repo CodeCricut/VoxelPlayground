@@ -1,5 +1,5 @@
 import { BoxBufferGeometry, Mesh, MeshBasicMaterial } from 'three';
-import { COORD_SELECTED } from '../systems/MouseCoordSelector';
+import { COORD_HOVERED } from '../systems/MouseCoordSelector';
 
 const createRolloverMesh = (mouseCoordSelector) => {
     const geometry = new BoxBufferGeometry(1, 1, 1);
@@ -10,7 +10,7 @@ const createRolloverMesh = (mouseCoordSelector) => {
     });
     const rolloverMesh = new Mesh(geometry, material);
 
-    document.addEventListener(COORD_SELECTED, () => {
+    document.addEventListener(COORD_HOVERED, () => {
         const selectedCoord = mouseCoordSelector.getSelectedCoord();
         rolloverMesh.position.copy(selectedCoord);
     });

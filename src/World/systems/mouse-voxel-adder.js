@@ -1,20 +1,10 @@
-import { MOUSE_UP } from './Mouse';
+import { COORD_CLICKED } from './MouseCoordSelector';
 
-const createMouseVoxelAdder = (
-    mouse,
-    keyboard,
-    mouseCoordSelector,
-    voxelGroup,
-    voxelAdder,
-) => {
-    document.addEventListener(MOUSE_UP, () => {
-        if (!mouse.isDragging && !keyboard.isShiftDown) {
-            const selectedCoord = mouseCoordSelector.getSelectedCoord();
-            voxelAdder.addVoxel(selectedCoord, voxelGroup);
-        }
+const addVoxelOnClick = (mouseCoordSelector, voxelGroup, voxelAdder) => {
+    document.addEventListener(COORD_CLICKED, () => {
+        const selectedCoord = mouseCoordSelector.getSelectedCoord();
+        voxelAdder.addVoxel(selectedCoord, voxelGroup);
     });
-
-    return voxelAdder;
 };
 
-export { createMouseVoxelAdder };
+export { addVoxelOnClick };
