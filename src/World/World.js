@@ -1,40 +1,29 @@
 import { createCamera } from './components/camera';
 import { createScene } from './components/scene';
 import { createRenderer } from './systems/renderer';
-import { createGridHelper } from './components/grid-helper';
-import { RESIZED, Resizer } from './systems/Resizer';
+import { Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
-import { createAmbientLight } from './components/ambient-light';
 import { createHemisphereLight } from './components/hemisphere-light';
 import { createDirectionalLights } from './components/directional-lights';
-import { createCube } from './components/cube';
 import { createControls } from './systems/controls';
 import { createCoordinateBasis } from './components/coordinate-basis';
-import { Voxel } from './components/Voxel';
-import { ObjectMap } from './systems/ObjectMap';
-import { Raycaster, Vector3 } from 'three';
 
 import { createRolloverMesh } from './components/rollover-mesh';
 import { VoxelGroup } from './components/VoxelGroup';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
-import { createVoxelAdder } from './systems/voxel-adder';
-import { addVoxelOnClick } from './systems/mouse-voxel-adder';
 import { removeVoxelOnShiftClick } from './systems/mouse-voxel-remover';
-import { createKeyboard } from './systems/Keyboard';
 import { createVoxelRemover } from './systems/voxel-remover';
-import { createVoxelFactory } from './systems/voxel-factory';
-import { DIRT } from './utility/voxel-types';
 import { createSkyDome } from './components/sky-dome';
 import { createGround } from './components/ground';
 
 import { Mouse } from './systems/Mouse';
 import { Keyboard } from './systems/Keyboard';
-import { CameraRaycaster, RAYCASTER_UPDATED } from './systems/CameraRaycaster';
-import {
-    COORD_CLICKED,
-    MouseCoordSelector,
-} from './systems/MouseCoordSelector';
+import { CameraRaycaster } from './systems/CameraRaycaster';
+import { MouseCoordSelector } from './systems/MouseCoordSelector';
+import { VoxelAdder } from './systems/VoxelAdder';
+import { MouseVoxelAdder } from './systems/MouseVoxelAdder';
+import { MaterialSelector } from './systems/MaterialSelector';
 
 class World {
     #camera;
@@ -95,31 +84,26 @@ class World {
             collidables.collidables,
         );
 
-        // Voxel factory
-        const voxelFactory = createVoxelFactory(this.#renderer);
-
-        // Test voxel
-        const voxel = voxelFactory.createVoxel(DIRT);
-        voxelGroup.add(voxel);
-
         // Coord selector
         const mouseCoordSelector = new MouseCoordSelector(
             cameraRaycaster,
             mouse,
             keyboard,
         );
-        mouseCoordSelector.addEventListener(COORD_CLICKED, () => {
-            const coord = mouseCoordSelector.getSelectedCoord();
-            console.dir(coord);
-        });
 
         // Rollover mesh
         const rolloverMesh = createRolloverMesh(mouseCoordSelector);
         coordBasis.add(rolloverMesh);
 
+        // Material selector
+        const materialSelector = new MaterialSelector();
+
         // Voxel adder
-        const voxelAdder = createVoxelAdder(voxelFactory);
-        addVoxelOnClick(mouseCoordSelector, voxelGroup, voxelAdder);
+        const voxelAdder = new VoxelAdder(voxelGroup, materialSelector);
+        const mouseVoxelAdder = new MouseVoxelAdder(
+            mouseCoordSelector,
+            voxelAdder,
+        );
 
         const voxelRemover = createVoxelRemover(
             mouse,

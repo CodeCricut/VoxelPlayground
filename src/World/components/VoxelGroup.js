@@ -1,5 +1,4 @@
 import { Group } from 'three';
-import { createCoordinateBasis } from './coordinate-basis';
 import { ObjectMap } from '../systems/ObjectMap';
 
 class VoxelGroup extends Group {

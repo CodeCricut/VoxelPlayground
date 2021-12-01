@@ -27,7 +27,7 @@ const grassNormalMap = textureLoader.load(grassNormal);
 
 const skyTextureMap = textureLoader.load(skyTexture);
 
-const typeToMaterial = (type) => {
+export const typeToMaterial = (type) => {
     const material = new MeshStandardMaterial({
         normalMap: grassNormalMap,
         normalScale: new Vector2(0.1, 0.1),
@@ -52,13 +52,3 @@ const typeToMaterial = (type) => {
 
     return material;
 };
-
-const createVoxelMaterialConverter = (renderer) => {
-    const converter = {
-        typeToMaterial,
-    };
-
-    return converter;
-};
-
-export { createVoxelMaterialConverter };
