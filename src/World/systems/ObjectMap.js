@@ -1,3 +1,7 @@
+const positionToKey = (position) => {
+    return '(' + position.x + ',' + position.y + ',' + position.z + ')';
+};
+
 class ObjectMap {
     #objects;
     constructor(initialObjects = new Map()) {
@@ -5,11 +9,17 @@ class ObjectMap {
     }
 
     addObject(object) {
-        this.#objects.set([object.position], object);
+        const key = positionToKey(object.position);
+        this.#objects.set(key, object);
     }
 
     getObjectAtPosition(position) {
-        return this.#objects.get(position);
+        const key = positionToKey(position);
+        // Messy, but it seems you can't override Map equality in JS
+        for (const [k, v] of this.#objects) {
+            if (k === key) return v;
+        }
+        return null;
     }
 
     getObjects() {
