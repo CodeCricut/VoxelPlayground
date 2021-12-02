@@ -6,7 +6,6 @@ import { createDirectionalLights } from './components/directional-lights';
 import { createControls } from './systems/controls';
 import { createCoordinateBasis } from './components/coordinate-basis';
 
-import { createRolloverMesh } from './components/rollover-mesh';
 import { VoxelGroup } from './components/VoxelGroup';
 import { Collidables } from './systems/collidables';
 import { createHitboxPlane } from './components/hitbox-plane';
@@ -24,6 +23,7 @@ import { MouseVoxelAdder } from './systems/MouseVoxelAdder';
 import { MaterialSelector } from './systems/MaterialSelector';
 import { VoxelRemover } from './systems/VoxelRemover';
 import { MouseVoxelRemover } from './systems/MouseVoxelRemover';
+import { RolloverMesh } from './components/RolloverMesh';
 
 class World {
     #camera;
@@ -34,7 +34,6 @@ class World {
         // Scene stuff
         this.#camera = createCamera();
         const scene = createScene();
-
         this.#renderer = createRenderer();
         container.append(this.#renderer.domElement);
 
@@ -54,12 +53,12 @@ class World {
 
         scene.add(hemisphereLight, coordBasis, directionalLights, skyDome);
 
+        // Collidables
+        const collidables = new Collidables();
+
         // Mouse and keyboard
         const mouse = new Mouse();
         const keyboard = new Keyboard();
-
-        // Collidables
-        const collidables = new Collidables();
 
         // Hitbox plane
         const hitboxPlane = createHitboxPlane();
@@ -92,7 +91,7 @@ class World {
         );
 
         // Rollover mesh
-        const rolloverMesh = createRolloverMesh(mouseCoordSelector);
+        const rolloverMesh = new RolloverMesh(mouseCoordSelector);
         coordBasis.add(rolloverMesh);
 
         // Material selector
